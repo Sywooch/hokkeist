@@ -151,3 +151,7 @@ a.desc:after {
     text-align: right;
     color:black;
 }
+
+.panel.panel-inverse .btn-group > .btn.btn-link {
+    color: white;
+}

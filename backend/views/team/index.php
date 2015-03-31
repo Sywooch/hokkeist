@@ -33,7 +33,7 @@ Breadcrumbs::widget([
 
         <p class="text-right">
             <?= Html::a('Очистить фильтр поиска', ['index'], ['class' => 'btn btn-link']) ?>    
-            <?= Html::a('Добавить новоую команду', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Добавить новую команду', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
 
         <?=

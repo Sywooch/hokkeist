@@ -95,9 +95,9 @@ Modal::end();
 //                                'dateFormat' => 'dd-MM-yyyy',
                             ]),
                         ],
-// 		[
-// 		    'attribute' => 'updated_at',
-// 		],
+ 		[
+ 		    'attribute' => 'sort',
+ 		],
 // 		[
 // 		    'attribute' => 'creator',
 // 		],

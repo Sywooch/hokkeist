@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\City as cityModel;
+use common\models\ArticleCategory;
 
 /**
- * city represents the model behind the search form about `common\models\city`.
+ * articleCategory represents the model behind the search form about `common\models\ArticleCategory`.
  */
-class city extends cityModel
+class articleCategory extends ArticleCategory
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class city extends cityModel
     public function rules()
     {
         return [
-            [['id', 'sort', 'status'], 'integer'],
-            [['name', 'creator_id', 'updator_id', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'parent', 'status'], 'integer'],
+            [['name', 'alias', 'keywords', 'description'], 'safe'],
         ];
     }
 
@@ -41,14 +41,12 @@ class city extends cityModel
      */
     public function search($params)
     {
-        $query = cityModel::find();
+        $query = ArticleCategory::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-//        $query->orderBy('sort, name, id DESC');
-        
         $this->load($params);
 
         if (!$this->validate()) {
@@ -59,16 +57,14 @@ class city extends cityModel
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'sort' => $this->sort,
+            'parent' => $this->parent,
             'status' => $this->status,
-            'creator_id' => $this->creator->name,
-            'updator_id' => $this->creator,
-            
-            'FROM_UNIXTIME(created_at,"%d.%m.%Y")' => $this->created_at,
-            'FROM_UNIXTIME(updated_at,"%d.%m.%Y")' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'alias', $this->alias])
+            ->andFilterWhere(['like', 'keywords', $this->keywords])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

@@ -18,7 +18,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div data-sortable-id="ui-general-1" class="panel panel-inverse">
     <div class="panel-heading">
-         <?php include __DIR__ . '/../sub_views/edit_del_buttons.php' ?>
+        <div class="btn-group pull-right">
+            <?= Html::a('<i class="fa fa-lg fa-plus"></i> Создать нового игрока', ['create'], ['class' => 'btn btn-link btn-sm m-r-5']) ?>
+            <?= Html::a('<i class="fa fa-lg fa-edit"></i> Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm m-r-5']) ?>
+            <?=
+            Html::a('<i class="fa fa-lg fa-trash"></i> Удалить', ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger btn-sm',
+                'data' => [
+                    'confirm' => 'Вы действительно хотите удалить эту запись?',
+                    'method' => 'post',
+                ],
+            ])
+            ?>
+        </div>
         <h4 class="panel-title">Просмотр игрока</h4>
     </div>
     <div class="panel-body">
@@ -61,7 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'death_date',
                 ],
-                
                 [
                     'attribute' => 'email',
                     'format' => 'email',
@@ -109,12 +120,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'creator_id',
                     'format' => 'raw',
-                    'value' => $model->creator->getFullNameWithLogin(true,['target' => '_blank']),
+                    'value' => $model->creator->getFullNameWithLogin(true, ['target' => '_blank']),
                 ],
                 [
                     'attribute' => 'updator_id',
                     'format' => 'raw',
-                    'value' =>  $model->updator_id ? $model->updator->getFullNameWithLogin(true,['target' => '_blank']) : NULL,
+                    'value' => $model->updator_id ? $model->updator->getFullNameWithLogin(true, ['target' => '_blank']) : NULL,
                 ],
                 [
                     'attribute' => 'team_id',

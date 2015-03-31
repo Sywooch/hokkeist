@@ -52,14 +52,16 @@ class Player extends BaseModel {
      */
     public function rules() {
         return [
-            [['firstname', 'lastname', 'birthday', 'height', 'grip', 'role', 'phone', 'city_id'], 'required'],
+//            [['firstname', 'lastname', 'birthday', 'height', 'grip', 'role', 'phone', 'city_id'], 'required'],
+            [['firstname', 'lastname', 'birthday', 'city_id', 'id_'], 'required'],
             [['birthday', 'death_date', 'pass_issue_date'], 'safe'],
             [['height', 'pass_serial', 'pass_number', 'city_id', 'sort', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'team_id'], 'integer'],
             [['weight'], 'number'],
             [['grip', 'role'], 'string'],
             [['firstname', 'lastname', 'middlename', 'email', 'pass_issued'], 'string', 'max' => 100],
             [['birth_place', 'foreign_pass', 'address'], 'string', 'max' => 150],
-            [['phone'], 'string', 'max' => 50]
+            [['phone'], 'string', 'max' => 50],
+            [['birth_certificate', 'id_'], 'string', 'max' => 20]
         ];
     }
 
@@ -95,6 +97,8 @@ class Player extends BaseModel {
             'updator_id' => 'Обновил',
             'status' => 'Активный',
             'team_id' => 'Команда',
+            'id_' => 'Идентификационный номер',
+            'birth_certificate' => 'Серия и номер св-ва о рождении'
         ];
     }
 
@@ -135,7 +139,7 @@ class Player extends BaseModel {
 //        return '1213';
         return $interval->format("%Y") == "00" ? "-" : $interval->format("%Y");
     }
-    
+
     public function getFullname() {
         return $this->lastname . ' ' . $this->firstname . ' ' . $this->middlename;
     }
@@ -150,4 +154,5 @@ class Player extends BaseModel {
     public function hasPhoto() {
         return false;
     }
+
 }

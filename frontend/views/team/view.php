@@ -91,10 +91,11 @@
 <div id="wrapper-players-table-container">
     <div id="players-table-container-title">Состав команды</div>
     <div id="players-table-container" class="news-list">
+
         <table>
             <thead>
                 <tr>
-                    <td>НОМЕР</td>
+                    <td>ID НОМЕР</td>
                     <td>ФАМИЛИЯ, ИМЯ</td>
                     <td>АМПЛУА</td>
                     <td>ДАТА РОЖДЕНИЯ</td>
@@ -102,20 +103,30 @@
                     <!--<td>КОНТРАКТ ДО</td>-->
                 </tr>
             </thead>
-            <tbody>
+            <tbody
+            <?php if (count($model->players) > 0): ?>
                 <?php foreach ($model->players as $player) : ?>
+                        <tr>
+                            <td><?= $player->id_ ?></td>
+                            <td>
+                                <a href="<?= yii\helpers\Url::to(['player/view', 'id' => $player->id]) ?>"><?= $player->fullname ?></a>
+                            </td>
+                            <td><?= $player->role ?></td>
+                            <td><?= Yii::$app->formatter->asDate($player->birthday) . ' (' . $player->age . ' лет)' ?></td>
+                            <td><?= $player->city->name ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?= $player->id ?></td>
-                        <td>
-                            <a href="<?= yii\helpers\Url::to(['player/view','id' => $player->id]) ?>"><?= $player->fullname ?></a>
+                        <td colspan="5" align="center">
+                            Информация по игрокам отсутствует
                         </td>
-                        <td><?= $player->role ?></td>
-                        <td><?= Yii::$app->formatter->asDate($player->birthday)  . ' ('. $player->age .' лет)' ?></td>
-                        <td><?= $player->city->name ?></td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
+
+
     </div>
 </div>
 

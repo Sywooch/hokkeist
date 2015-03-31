@@ -59,6 +59,10 @@ class City extends BaseModel
         ];
     }
 
+    public static function find() {
+        return parent::find()->orderBy('sort, name, id DESC')->andWhere('status = ' . self::STATUS_ACTIVE);
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */

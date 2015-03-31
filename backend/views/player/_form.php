@@ -32,6 +32,9 @@ use common\models\Team;
     </div>
     <div class="row">
         <div class="col-md-4">
+            <?= $form->field($model, 'id_')->textInput(['maxlength' => 20]) ?>
+        </div>
+        <div class="col-md-4">
             <?=
             $form->field($model, 'birthday')->widget('yii\jui\DatePicker', [
                 'options' => ['class' => 'form-control'],
@@ -43,7 +46,7 @@ use common\models\Team;
             ])
             ?>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <?= $form->field($model, 'birth_place')->textInput(['maxlength' => 150]) ?>
         </div>
     </div>
@@ -127,7 +130,10 @@ use common\models\Team;
             <?= $form->field($model, 'pass_issued')->textInput(['maxlength' => 100]) ?>
         </div>
     </div>
+    <legend>Свидетельство о рождении</legend>
+    <?= $form->field($model, 'birth_certificate')->textInput() ?>
 
+    <legend>Загран. паспорт</legend>
     <?= $form->field($model, 'foreign_pass')->textInput(['maxlength' => 150]) ?>
     <?php $tab_2 = ob_get_clean() ?>
 

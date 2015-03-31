@@ -51,7 +51,7 @@ class BaseModel extends \yii\db\ActiveRecord {
 //    }
 
     public static function find() {
-        return parent::find()->orderBy('status DESC, sort ASC, id DESC')->andWhere('status = ' . self::STATUS_ACTIVE);
+        return parent::find()->andWhere('status = ' . self::STATUS_ACTIVE);
     }
     public static function findAnyWhere() {
         return parent::find()->orderBy('status DESC, sort ASC, id DESC');

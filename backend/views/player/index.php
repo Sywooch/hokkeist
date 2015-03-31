@@ -43,47 +43,46 @@ echo Breadcrumbs::widget([
             'columns' => [
 
                 [
-                    'attribute' => 'id',
+                    'attribute' => 'id_',
                     'options' => ['style' => 'width:70px;'],
+                    'header' => Html::a('ID','#', ['data-sort' =>'_id']),
+                    'format' => 'html',
+                    'filter' => Html::textInput('player[id_]', $searchModel->id_),
+                    'value' => function ($model, $index, $widget) {
+                            return Html::a($model->id_, ['view', 'id' => $model->id]);
+                        },
+//                                'sort' => false,
                 ],
                 [
                     'attribute' => 'lastname',
+                ],
+                [
+                    'attribute' => 'firstname',
+                ],
+//                [
+//                    'attribute' => 'middlename',
+//                ],
+                [
+                    'attribute' => 'birthday',
                     'format' => 'html',
                     'value' => function ($model, $index, $widget) {
-                        return Html::a($model->lastname, ['view', 'id' => $model->id]);
+                        return Yii::$app->formatter->asDate($model->birthday, 'dd.MM.yyyy') . ' <small>(' . $model->age . ' лет)</small>';
                     },
-                        ],
-                        [
-                            'attribute' => 'firstname',
-                            'format' => 'html',
-                            'value' => function ($model, $index, $widget) {
-                                return Html::a($model->firstname, ['view', 'id' => $model->id]);
-                            },
-                                ],
-                                [
-                                    'attribute' => 'middlename',
-                                ],
-                                [
-                                    'attribute' => 'birthday',
-                                    'format' => 'html',
-                                    'value' => function ($model, $index, $widget) {
-                                        return Yii::$app->formatter->asDate($model->birthday, 'dd.MM.yyyy') . ' <small>(' . $model->age . ' лет)</small>';
-                                    },
-                                ],
+                ],
 // 		[
 // 		    'attribute' => 'height',
 // 		],
 // 		[
 // 		    'attribute' => 'weight',
 // 		],
-                                [
-                                    'attribute' => 'grip',
-                                    'filter' => Html::dropDownList('player[grip]', $searchModel->role, [ 'Левый' => 'Левый', 'Правый' => 'Правый'], ['class' => 'form-control', 'prompt' => '-- Любой --'])
-                                ],
-                                [
-                                    'attribute' => 'role',
-                                    'filter' => Html::dropDownList('player[role]', $searchModel->role, [ 'Вратарь' => 'Вратарь', 'Защитник' => 'Защитник', 'Нападающий' => 'Нападающий'], ['class' => 'form-control', 'prompt' => '-- Любой --'])
-                                ],
+                [
+                    'attribute' => 'grip',
+                    'filter' => Html::dropDownList('player[grip]', $searchModel->role, [ 'Левый' => 'Левый', 'Правый' => 'Правый'], ['class' => 'form-control', 'prompt' => '-- Любой --'])
+                ],
+                [
+                    'attribute' => 'role',
+                    'filter' => Html::dropDownList('player[role]', $searchModel->role, [ 'Вратарь' => 'Вратарь', 'Защитник' => 'Защитник', 'Нападающий' => 'Нападающий'], ['class' => 'form-control', 'prompt' => '-- Любой --'])
+                ],
 // 		[
 // 		    'attribute' => 'death_date',
 // 		],
@@ -115,13 +114,13 @@ echo Breadcrumbs::widget([
 // 		[
 // 		    'attribute' => 'address',
 // 		],
-                                [
-                                    'attribute' => 'city_id',
-                                    'value' => function ($model, $index, $widget) {
-                                        return $model->city->name;
-                                    },
-                                    'filter' => Html::dropDownList('player[city_id]', $searchModel->city_id, ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name'), ['class' => 'form-control', 'prompt' => '-- Любой --']),
-                                ],
+                [
+                    'attribute' => 'city_id',
+                    'value' => function ($model, $index, $widget) {
+                        return $model->city->name;
+                    },
+                    'filter' => Html::dropDownList('player[city_id]', $searchModel->city_id, ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name'), ['class' => 'form-control', 'prompt' => '-- Любой --']),
+                ],
 // 		[
 // 		    'attribute' => 'sort',
 // 		    'filter' => false,
@@ -147,17 +146,17 @@ echo Breadcrumbs::widget([
 // 		     },
 // 		    'filter' => Html::dropDownList('player[status]', $searchModel->status, ['10' => 'Активный', '0' => 'Не активный']),
 // 		],
-                                [
-                                    'attribute' => 'team_id',
-                                    'value' => function ($model, $index, $widget) {
-                                        return $model->team->name;
-                                    },
-                                    'filter' => Html::dropDownList('player[team_id]', $searchModel->team_id, $searchModel->teamList, ['class' => 'form-control', 'prompt' => '-- Любая --']),
-                                ],
-                                ['class' => 'yii\grid\ActionColumn', 'options' => ['style' => 'width:56px;']],
-                            ],
-                        ]);
-                        ?>
+                [
+                    'attribute' => 'team_id',
+                    'value' => function ($model, $index, $widget) {
+                        return $model->team->name;
+                    },
+                    'filter' => Html::dropDownList('player[team_id]', $searchModel->team_id, $searchModel->teamList, ['class' => 'form-control', 'prompt' => '-- Любая --']),
+                ],
+                ['class' => 'yii\grid\ActionColumn', 'options' => ['style' => 'width:56px;']],
+            ],
+        ]);
+        ?>
 
     </div>
 </div>
