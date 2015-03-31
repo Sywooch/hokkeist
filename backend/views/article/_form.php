@@ -2,50 +2,91 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\ArticleCategory;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<?php $form = ActiveForm::begin(); ?>
+<div class="row">
+    <div class="col-md-6">
+        <div class="tab-content">
 
-<div class="article-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+            <legend>Основные данные</legend>
+            <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'subtitle')->textarea(['rows' => 2]) ?>
+            <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(ArticleCategory::find()->asArray()->all(), 'id', 'name'), ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
+            <?= Html::activeLabel($model, 'fulltext') ?>
 
-    <?= $form->field($model, 'subtitle')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'fulltext')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'category_id')->textInput() ?>
-
-    <?= $form->field($model, 'publish_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'modified_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'author_alias')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'modif_by')->textInput() ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'comments')->textInput() ?>
-
-    <?= $form->field($model, 'imgtitle')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'showImage')->textInput() ?>
-
-    <?= $form->field($model, 'hits')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?php
+            echo yii\imperavi\Widget::widget([
+                // You can either use it for model attribute
+                'model' => $model,
+                'attribute' => 'fulltext',
+                // or just for input field
+//        'name' => 'my_input_name',
+                // Some options, see http://imperavi.com/redactor/docs/
+                'options' => [
+//            'toolbar' => false,
+                    'css' => 'wym.css',
+                ],
+                'plugins' => [
+                    'fullscreen',
+//            'clips'
+                ]
+            ]);
+            ?>
+        </div>
     </div>
+    <div class="col-md-6">
+        <div class="tab-content">
 
-    <?php ActiveForm::end(); ?>
 
+            <legend>Дополнительные сведения</legend>   
+            <div class="form-group field-article-author_alias">
+                <?= Html::activeLabel($model, 'publish_at') ?>
+                <?=
+                DateTimePicker::widget([
+                    'name' => 'publish_at',
+//                    'options' => ['placeholder' => 'Select operating time ...'],
+                    'convertFormat' => true,
+                    'type' => DateTimePicker::TYPE_INPUT,
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'dd-MM-yyyy hh:i',
+                        'value' => '123123', // date('Y-m-d H:i'),
+                    ],
+//                'pluginOptions' => [
+//                    'format' => 'Y-m-d',
+//                    'startDate' => '01-Mar-2014 12:00 AM',
+//                    'todayHighlight' => true,
+//                    
+//                ]
+                ]);
+                ?>
+            </div>
+
+            <?= $form->field($model, 'author_alias')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'sort')->textInput() ?>
+            <?= $form->field($model, 'comments')->checkbox() ?>
+            <?= $form->field($model, 'status')->checkbox(['value' => $model::STATUS_ACTIVE]) ?>
+
+
+            <legend>Изображение</legend>
+            <?= $form->field($model, 'showImage')->checkbox() ?>
+            <?= $form->field($model, 'imgtitle')->textInput(['maxlength' => 255]) ?>
+
+
+        </div>
+    </div>
 </div>
+
+<div class="form-group">
+    <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+</div>
+<?php ActiveForm::end(); ?>

@@ -31,11 +31,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'modified_at') ?>
 
-    <?php // echo $form->field($model, 'created_by') ?>
+    <?php // echo $form->field($model, 'creator_id') ?>
 
     <?php // echo $form->field($model, 'author_alias') ?>
 
-    <?php // echo $form->field($model, 'modif_by') ?>
+    <?php // echo $form->field($model, 'updator_id') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 
@@ -46,6 +46,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'showImage') ?>
 
     <?php // echo $form->field($model, 'hits') ?>
+
+    <?php // echo $form->field($model, 'sort') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

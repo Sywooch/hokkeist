@@ -27,7 +27,7 @@ use Yii;
  * @property User $createdBy
  * @property ArticleCategory $category
  */
-class Article extends \yii\db\ActiveRecord
+class Article extends BaseModel
 {
     /**
      * @inheritdoc
@@ -43,9 +43,9 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'fulltext', 'category_id', 'publish_at', 'created_at', 'created_by'], 'required'],
+            [['title', 'fulltext', 'category_id', 'publish_at'], 'required'],
             [['subtitle', 'fulltext'], 'string'],
-            [['category_id', 'publish_at', 'created_at', 'modified_at', 'created_by', 'modif_by', 'status', 'comments', 'showImage', 'hits'], 'integer'],
+            [['category_id', 'created_at', 'modified_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits', 'sort'], 'integer'],
             [['title', 'author_alias', 'imgtitle'], 'string', 'max' => 255]
         ];
     }
@@ -57,21 +57,22 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'subtitle' => 'Subtitle',
-            'fulltext' => 'Fulltext',
-            'category_id' => 'Category ID',
+            'title' => 'Заголовок',
+            'subtitle' => 'Подзаголовок',
+            'fulltext' => 'Текст материала',
+            'category_id' => 'Категория',
             'publish_at' => 'Дата публикации',
             'created_at' => 'Дата создания',
             'modified_at' => 'Дата изменения',
-            'created_by' => 'Создал',
+            'creator_id' => 'Создал',
             'author_alias' => 'Псевдоним автора',
-            'modif_by' => 'Изменил',
-            'status' => 'Статус',
+            'updator_id' => 'Изменил',
+            'status' => 'Опублиновано',
             'comments' => 'Комментарии включены',
             'imgtitle' => 'Подпись изображения',
             'showImage' => 'Показывать изображение внутри материала',
-            'hits' => 'Hits',
+            'hits' => 'Просмотров',
+            'sort' => 'Сортировка'
         ];
     }
 

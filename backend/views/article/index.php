@@ -67,13 +67,13 @@ Breadcrumbs::widget([
 // 		    'attribute' => 'modified_at',
 // 		],
 // 		[
-// 		    'attribute' => 'created_by',
+// 		    'attribute' => 'creator_id',
 // 		],
 // 		[
 // 		    'attribute' => 'author_alias',
 // 		],
 // 		[
-// 		    'attribute' => 'modif_by',
+// 		    'attribute' => 'updator_id',
 // 		],
 // 		[
 // 		    'attribute' => 'status',
@@ -93,6 +93,10 @@ Breadcrumbs::widget([
 // 		],
 // 		[
 // 		    'attribute' => 'hits',
+// 		],
+// 		[
+// 		    'attribute' => 'sort',
+// 		    'filter' => false,
 // 		],
 
             ['class' => 'yii\grid\ActionColumn','options' => ['style' => 'width:56px;']],

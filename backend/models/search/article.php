@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Article;
+use common\models\Article as ArticleModel;
 
 /**
  * article represents the model behind the search form about `common\models\Article`.
  */
-class article extends Article
+class article extends ArticleModel
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class article extends Article
     public function rules()
     {
         return [
-            [['id', 'category_id', 'publish_at', 'created_at', 'modified_at', 'created_by', 'modif_by', 'status', 'comments', 'showImage', 'hits'], 'integer'],
+            [['id', 'category_id', 'publish_at', 'created_at', 'modified_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits','sort'], 'integer'],
             [['title', 'subtitle', 'fulltext', 'author_alias', 'imgtitle'], 'safe'],
         ];
     }
@@ -61,12 +61,13 @@ class article extends Article
             'publish_at' => $this->publish_at,
             'created_at' => $this->created_at,
             'modified_at' => $this->modified_at,
-            'created_by' => $this->created_by,
-            'modif_by' => $this->modif_by,
+            'creator_id' => $this->creator_id,
+            'updator_id' => $this->updator_id,
             'status' => $this->status,
             'comments' => $this->comments,
             'showImage' => $this->showImage,
             'hits' => $this->hits,
+            'sort' => $this->sort,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
