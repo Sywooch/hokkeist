@@ -1,0 +1,15 @@
+.sub-player:hover .sub-player-name {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100); /* данная строчка работает в IE6, IE7, и IE8 */
+}
+.sub-player-name {
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+#main-news a:hover img {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+}
+.window-container {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+.window-container-visible {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+}
