@@ -14,7 +14,7 @@ use Yii;
  * @property integer $category_id
  * @property integer $publish_at
  * @property integer $created_at
- * @property integer $modified_at
+ * @property integer $updated_at
  * @property integer $created_by
  * @property string $author_alias
  * @property integer $modif_by
@@ -27,25 +27,29 @@ use Yii;
  * @property User $createdBy
  * @property ArticleCategory $category
  */
-class Article extends BaseModel
-{
+class Article extends BaseModel {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'article';
+    }
+
+    public function beforeSave($insert) {
+        parent::beforeSave($insert);
+        $this->publish_at = Yii::$app->formatter->format($this->publish_at, 'timestamp');
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['title', 'fulltext', 'category_id', 'publish_at'], 'required'],
             [['subtitle', 'fulltext'], 'string'],
-            [['category_id', 'created_at', 'modified_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits', 'sort'], 'integer'],
+            [['category_id', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits', 'sort'], 'integer'],
             [['title', 'author_alias', 'imgtitle'], 'string', 'max' => 255]
         ];
     }
@@ -53,8 +57,7 @@ class Article extends BaseModel
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'title' => 'Заголовок',
@@ -63,7 +66,7 @@ class Article extends BaseModel
             'category_id' => 'Категория',
             'publish_at' => 'Дата публикации',
             'created_at' => 'Дата создания',
-            'modified_at' => 'Дата изменения',
+            'updated_at' => 'Дата изменения',
             'creator_id' => 'Создал',
             'author_alias' => 'Псевдоним автора',
             'updator_id' => 'Изменил',
@@ -79,16 +82,15 @@ class Article extends BaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCreatedBy()
-    {
+    public function getCreatedBy() {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->hasOne(ArticleCategory::className(), ['id' => 'category_id']);
     }
+
 }

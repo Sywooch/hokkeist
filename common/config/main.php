@@ -13,7 +13,7 @@ return [
             'defaultRoles' => ['admin', 'player', 'player', 'registered'], // Здесь нет роли "guest", т.к. эта роль виртуальная и не присутствует в модели UserExt
         ],
         'formatter' => [
-            'dateFormat' => 'dd.MM.yyyy',
+            'dateFormat' => 'dd.MM.yyyy H:i',
             'decimalSeparator' => ',',
             'thousandSeparator' => ' ',
             'currencyCode' => 'RUR',

@@ -38,8 +38,8 @@ AppAsset::register($this);
                     ],
                 ]);
                 $menuItems = [
-                    ['label' => 'Новости', 'url' => ['/article/index','categpry' => 'news']],
-                    ['label' => 'История', 'url' => ['/article/index','categpry' => 'history']],
+                    ['label' => 'Новости', 'url' => ['/article/index','category' => 'news'], 'active' => 'news' === Yii::$app->controller->actionParams['category']],
+                    ['label' => 'История', 'url' => ['/article/index','category' => 'history']],
                     ['label' => 'Официально', 'url' => ['/site/about'], 'items' => [
                             ['label' => 'О федерации', 'url' => ['/site/index']],
                             ['label' => 'Руководство', 'url' => ['/site/about']],

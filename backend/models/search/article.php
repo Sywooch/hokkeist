@@ -18,7 +18,7 @@ class article extends ArticleModel
     public function rules()
     {
         return [
-            [['id', 'category_id', 'publish_at', 'created_at', 'modified_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits','sort'], 'integer'],
+            [['id', 'category_id', 'publish_at', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits','sort'], 'integer'],
             [['title', 'subtitle', 'fulltext', 'author_alias', 'imgtitle'], 'safe'],
         ];
     }
@@ -60,7 +60,7 @@ class article extends ArticleModel
             'category_id' => $this->category_id,
             'publish_at' => $this->publish_at,
             'created_at' => $this->created_at,
-            'modified_at' => $this->modified_at,
+            'updated_at' => $this->updated_at,
             'creator_id' => $this->creator_id,
             'updator_id' => $this->updator_id,
             'status' => $this->status,

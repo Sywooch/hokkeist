@@ -12,14 +12,14 @@ use kartik\datetime\DateTimePicker;
 ?>
 <?php $form = ActiveForm::begin(); ?>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="tab-content">
 
 
             <legend>Основные данные</legend>
             <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'subtitle')->textarea(['rows' => 2]) ?>
-            <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(ArticleCategory::find()->asArray()->all(), 'id', 'name'), ['prompt' => '']) ?>
+
 
             <?= Html::activeLabel($model, 'fulltext') ?>
 
@@ -43,30 +43,25 @@ use kartik\datetime\DateTimePicker;
             ?>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="tab-content">
 
 
             <legend>Дополнительные сведения</legend>   
+            
             <div class="form-group field-article-author_alias">
+                            <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(ArticleCategory::find()->asArray()->all(), 'id', 'name'), ['prompt' => '']) ?>
                 <?= Html::activeLabel($model, 'publish_at') ?>
                 <?=
                 DateTimePicker::widget([
-                    'name' => 'publish_at',
-//                    'options' => ['placeholder' => 'Select operating time ...'],
+                    'model' => $model,
+                    'attribute' => 'publish_at',
                     'convertFormat' => true,
                     'type' => DateTimePicker::TYPE_INPUT,
                     'pluginOptions' => [
                         'autoclose' => true,
-                        'format' => 'dd-MM-yyyy hh:i',
-                        'value' => '123123', // date('Y-m-d H:i'),
+                        'format' =>  Yii::$app->formatter->dateFormat,
                     ],
-//                'pluginOptions' => [
-//                    'format' => 'Y-m-d',
-//                    'startDate' => '01-Mar-2014 12:00 AM',
-//                    'todayHighlight' => true,
-//                    
-//                ]
                 ]);
                 ?>
             </div>

@@ -30,6 +30,7 @@ class ArticleController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+       
         $searchModel = new articleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -57,11 +58,14 @@ class ArticleController extends Controller {
      */
     public function actionCreate() {
         $model = new Article();
-        $model->loadDefaultValues();
-
+        $model->loadDefaultValues();      
+        
+        
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $model->publish_at = date("Y-m-d H:i");
             return $this->render('create', [
                         'model' => $model,
             ]);
@@ -80,6 +84,8 @@ class ArticleController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            
+            $model->publish_at =  Yii::$app->formatter->asDate($model->publish_at);
             return $this->render('update', [
                         'model' => $model,
             ]);

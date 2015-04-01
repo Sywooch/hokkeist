@@ -12,12 +12,12 @@ $this->title = 'Articles';
 $this->params['breadcrumbs'][] = $this->title;
 
 Breadcrumbs::widget([
-'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-'options' => ['class' => Yii::$app->params['breadcrumbClass']],
+    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    'options' => ['class' => Yii::$app->params['breadcrumbClass']],
 ])
 ?>
 
-<h1 class="page-header"><?= Html::encode($this->title) ?> <?=  isset($smallText) ? Html::tag('small', $smallText) : '' ?></h1>
+<h1 class="page-header"><?= Html::encode($this->title) ?> <?= isset($smallText) ? Html::tag('small', $smallText) : '' ?></h1>
 
 <!-- begin panel -->
 <div class="panel panel-inverse">
@@ -26,35 +26,43 @@ Breadcrumbs::widget([
     </div>
 
     <div class="panel-body">
-                        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-        
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
         <p class="text-right">
             <?= Html::a('Create Article', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
 
-                    <?= GridView::widget([
+        <?=
+        GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-        'columns' => [
+            'columns' => [
 
-            		[
-		    'attribute' => 'id',
-		    'options' => ['style' => 'width:70px;'],
-		],
-		[
-		    'attribute' => 'title',
-		],
-		[
-		    'attribute' => 'subtitle',
-		    'format' => 'ntext',
-		],
-		[
-		    'attribute' => 'fulltext',
-		    'format' => 'ntext',
-		],
-		[
-		    'attribute' => 'category_id',
-		],
+                [
+                    'attribute' => 'id',
+                    'options' => ['style' => 'width:70px;'],
+                ],
+                [
+                    'attribute' => 'title',
+                    'format' => 'html',
+                    'value' => function($model) {
+                        return Html::a($model->title, ['update', 'id' => $model->id]);
+                    }
+                        ],
+                        [
+                            'attribute' => 'subtitle',
+                            'format' => 'ntext',
+                            'value' => function($model, $index, $widget) {
+                                return \yii\helpers\StringHelper::truncateWords(strip_tags($model->subtitle), 10);
+                            }
+                        ],
+                        [
+                            'attribute' => 'category_id',
+                            'value' => function($model, $index, $widget) {
+                                return $model->category->name;
+                            },
+                            'filter' => Html::dropDownList('Article[category_id]', $searchModel->category_id, \yii\helpers\ArrayHelper::map(common\models\ArticleCategory::find()->all(), 'id', 'name', 'parent'), ['class' => 'form-control'])
+                        ],
 // 		[
 // 		    'attribute' => 'publish_at',
 // 		],
@@ -98,10 +106,10 @@ Breadcrumbs::widget([
 // 		    'attribute' => 'sort',
 // 		    'filter' => false,
 // 		],
+                        ['class' => 'yii\grid\ActionColumn', 'options' => ['style' => 'width:56px;']],
+                    ],
+                ]);
+                ?>
 
-            ['class' => 'yii\grid\ActionColumn','options' => ['style' => 'width:56px;']],
-            ],
-            ]); ?>
-        
     </div>
 </div>
