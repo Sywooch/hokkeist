@@ -1,15 +1,15 @@
 <?php
 
-namespace app\controllers;
+namespace frontend\controllers;
 
 class ArticleController extends \yii\web\Controller
 {
-    public function actionIndex()
+    public function actionIndex($category)
     {
         return $this->render('index');
     }
 
-    public function actionView()
+    public function actionView($category, $id)
     {
         return $this->render('view');
     }
