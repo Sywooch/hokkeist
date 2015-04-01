@@ -17,7 +17,7 @@ echo Breadcrumbs::widget([
 ])
 ?>
 
-<h1 class="page-header"><?= $this->title ?> <?= isset($smallText) ? yii\helpers\Html::tag('small', $smallText) : '' ?></h1>
+<h1 class="page-header">Редактирование записи #<?=$model->id ?></h1>
 
 
 <?=

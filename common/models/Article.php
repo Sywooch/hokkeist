@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use yii\db\ActiveQuery;
 use Yii;
 
 /**
@@ -79,6 +80,11 @@ class Article extends BaseModel {
         ];
     }
 
+    public static function find()
+    {
+        return new ArticleQuery(get_called_class());
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -93,4 +99,12 @@ class Article extends BaseModel {
         return $this->hasOne(ArticleCategory::className(), ['id' => 'category_id']);
     }
 
+}
+
+class ArticleQuery extends ActiveQuery {
+    
+    public function published() {
+        return $this->andWhere(['<', 'publish_at', time()])->andWhere(['=', 'status', Article::STATUS_ACTIVE]);
+    }
+    
 }

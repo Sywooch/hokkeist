@@ -21,7 +21,8 @@ return [
                 'player/<id>' => 'player/view',
                 'team/<id>' => 'team/view',
 //                'news' => 'article/index',
-                '<category:(news|history|official|media)>' => 'article/index'
+                '<category:(news|history|official|media)>' => 'article/index',
+                '<category:(news|history|official|media)>/<id>' => 'article/view',
             ],
         ],
         'user' => [

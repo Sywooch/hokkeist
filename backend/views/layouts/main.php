@@ -134,7 +134,7 @@ AppAsset::register($this);
             </div>
             <!-- end #header -->
             
-            <!-- begin #sidebar -->
+            <!-- begin #menu -->
             <?php require_once '_sideBar.php'; ?>
 
             <!-- begin #content -->
@@ -145,8 +145,6 @@ AppAsset::register($this);
                 <!-- Page Content Here -->
             </div>
             <!-- end #content -->
-
-
             <!-- begin scroll to top btn -->
             <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top">
                 <i class="fa fa-angle-up"></i>

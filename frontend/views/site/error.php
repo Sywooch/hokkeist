@@ -8,14 +8,15 @@ use yii\helpers\Html;
 /* @var $exception Exception */
 
 $this->title = $name;
+Yii::$app->controller->layout = 'content';
 ?>
-<div class="col-lg-9 no-padding content-container">
-    <h1><?= $this->title ?></h1>
 
-    <p>Произошла ошибка:  <b><?= nl2br(Html::encode($message)) ?></b></p>
+<h1><?= $this->title ?></h1>
+
+<p>Произошла ошибка:  <b><?= nl2br(Html::encode($message)) ?></b></p>
 <br />
-    <p>
-        Вы можете вернуться на <a href="/">главную страницу</a> или воспользоваться поиском &rarr;
-    </p>
-</div>
+<p>
+    Вы можете вернуться на <a href="/">главную страницу</a> или воспользоваться поиском
+</p>
+
 

@@ -30,7 +30,7 @@ AppAsset::register($this);
         
         <div class="row sun-light-1">
             <div class="container" style="padding-left:0; padding-right: 0;">
-                <div class="col-lg-9 no-padding">
+                <div class="col-lg-9 no-padding content-container">
                     <?= $content ?>
                 </div>
                 <div class="col-lg-3 no-padding">
