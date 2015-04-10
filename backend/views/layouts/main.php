@@ -2,8 +2,7 @@
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
-
-
+use yii\bootstrap\Alert;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -133,12 +132,21 @@ AppAsset::register($this);
                 </div>
             </div>
             <!-- end #header -->
-            
+
             <!-- begin #menu -->
             <?php require_once '_sideBar.php'; ?>
 
             <!-- begin #content -->
             <div id="content" class="content">
+
+                <?=
+                (Yii::$app->session->hasFlash('error')) ? Alert::widget([
+                            'options' => [
+                                'class' => 'alert-danger',
+                            ],
+                            'body' => Yii::$app->session->getFlash('error'),
+                        ]) : '';
+                ?>
                 <!-- begin page-header -->
                 <?= $content ?>
                 <!-- end page-header -->

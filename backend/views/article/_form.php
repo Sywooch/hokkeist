@@ -10,16 +10,14 @@ use kartik\datetime\DateTimePicker;
 /* @var $model common\models\Article */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin([ 'options' => ['enctype' => 'multipart/form-data']]); ?>
 <div class="row">
     <div class="col-md-8">
         <div class="tab-content">
 
-
             <legend>Основные данные</legend>
             <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'subtitle')->textarea(['rows' => 2]) ?>
-
 
             <?= Html::activeLabel($model, 'fulltext') ?>
 
@@ -41,6 +39,7 @@ use kartik\datetime\DateTimePicker;
                 ]
             ]);
             ?>
+            <?= Html::error($model, 'fulltext', ['class' => 'help-block', 'style' => 'color:#ca0000']) ?>
         </div>
     </div>
     <div class="col-md-4">
@@ -48,9 +47,9 @@ use kartik\datetime\DateTimePicker;
 
 
             <legend>Дополнительные сведения</legend>   
-            
+
             <div class="form-group field-article-author_alias">
-                            <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(ArticleCategory::find()->asArray()->all(), 'id', 'name'), ['prompt' => '']) ?>
+                <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(ArticleCategory::find()->asArray()->all(), 'id', 'name'), ['prompt' => '']) ?>
                 <?= Html::activeLabel($model, 'publish_at') ?>
                 <?=
                 DateTimePicker::widget([
@@ -60,7 +59,7 @@ use kartik\datetime\DateTimePicker;
                     'type' => DateTimePicker::TYPE_INPUT,
                     'pluginOptions' => [
                         'autoclose' => true,
-                        'format' =>  Yii::$app->formatter->dateFormat,
+                        'format' => Yii::$app->formatter->dateFormat,
                     ],
                 ]);
                 ?>
@@ -75,13 +74,22 @@ use kartik\datetime\DateTimePicker;
             <legend>Изображение</legend>
             <?= $form->field($model, 'showImage')->checkbox() ?>
             <?= $form->field($model, 'imgtitle')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'image_')->fileInput() ?>
 
+            <?php
+            if (!$model->isNewRecord && $image = $model->getImage('_medium', ['style' => 'max-width:100%'])) {
+                echo $form->field($model, 'deleteImage')->checkbox();
+                echo $image;
+            }
+            ?>
 
         </div>
     </div>
 </div>
 
 <div class="form-group">
-    <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::submitButton('Сохранить и закрыть', ['class' => 'btn btn-primary', 'name' => 'Article[close]', 'value' => 'closeAll']) ?>
+    <?= Html::submitButton('Сохранить и создать еще', ['class' => 'btn btn-success', 'name' => 'Article[close]', 'value' => 'closeAndNew']) ?>
+    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success', 'name' => 'Article[close]', 'value' => 'closeAndView']) ?>
 </div>
 <?php ActiveForm::end(); ?>

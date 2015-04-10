@@ -10,7 +10,7 @@ $menuItems = [
     ['label' => 'Игроки', 'icon' => 'user','url' => ['/player/index'], 'active' => 'player' === Yii::$app->controller->id],
     ['label' => 'Матчи', 'url' => ['/match/index'], 'icon' => 'cubes', 'active' => 'macth' === Yii::$app->controller->id],
     ['label' => 'Туры', 'url' => ['/tour/index'], 'icon' => 'cubes', 'active' => 'tour' === Yii::$app->controller->id],
-    ['label' => 'Стадии', 'url' => ['/stage/index'], 'icon' => 'cubes', 'active' => 'stage' === Yii::$app->controller->id],
+    ['label' => 'Этапы', 'url' => ['/stage/index'], 'icon' => 'cubes', 'active' => 'stage' === Yii::$app->controller->id],
     ['label' => 'Дивизионы', 'url' => ['/division/index'], 'icon' => 'cubes', 'active' => 'division' === Yii::$app->controller->id],
     ['label' => 'Соревнования', 'url' => ['/competition/index'], 'icon' => 'cubes', 'active' => 'competition' === Yii::$app->controller->id],
     ['label' => 'Сезоны', 'url' => ['/season/index'], 'icon' => 'cubes','active' => 'season' === Yii::$app->controller->id],

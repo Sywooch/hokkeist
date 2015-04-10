@@ -11,30 +11,42 @@ $this->title = $model->lastname . ' ' . $model->firstname . ' ' . $model->middle
 //$smallText = 'Просмотр';
 $this->params['breadcrumbs'][] = ['label' => 'Игроки', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$smallText = $model->status == \common\models\Team::STATUS_ACTIVE ? 'Активен' : 'Помещен в архив';
 ?>
 <?php include __DIR__ . '/../sub_views/breadcrumbs.php' ?>
 
 <h1 class="page-header"><?= $this->title ?> <?= isset($smallText) ? yii\helpers\Html::tag('small', $smallText) : '' ?></h1>
 
-<div data-sortable-id="ui-general-1" class="panel panel-inverse">
-    <div class="panel-heading">
-        <div class="btn-group pull-right">
-            <?= Html::a('<i class="fa fa-lg fa-plus"></i> Создать нового игрока', ['create'], ['class' => 'btn btn-link btn-sm m-r-5']) ?>
-            <?= Html::a('<i class="fa fa-lg fa-edit"></i> Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm m-r-5']) ?>
-            <?=
-            Html::a('<i class="fa fa-lg fa-trash"></i> Удалить', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger btn-sm',
-                'data' => [
-                    'confirm' => 'Вы действительно хотите удалить эту запись?',
-                    'method' => 'post',
-                ],
-            ])
-            ?>
-        </div>
-        <h4 class="panel-title">Просмотр игрока</h4>
+<?php ob_start(); ?>
+<legend>Основная информация 
+    <div class="btn-group pull-right">
+        <?= Html::a('<i class="fa fa-lg fa-plus"></i> Создать нового игрока', ['create'], ['class' => 'btn btn-link btn-sm m-r-5']) ?>
+        <?= Html::a('<i class="fa fa-lg fa-edit"></i> Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm m-r-5']) ?>
+        <?=
+        Html::a('<i class="fa fa-lg fa-trash"></i> Удалить', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger btn-sm',
+            'data' => [
+                'confirm' => 'Вы действительно хотите удалить эту запись?',
+                'method' => 'post',
+            ],
+        ])
+        ?>
     </div>
-    <div class="panel-body">
+</legend>
 
+<div class="row">
+    <div class="col-lg-3">
+        <?php
+        if (!$model->isNewRecord && $image = $model->getImage('_medium', ['style' => 'max-width:100%'])):
+            echo $image;
+        else :
+            ?>
+            <div style="text-align: center; font-size: 26px; color:#ccc; padding-top: 124px;  width: 100%; height: 300px;">Фото<br/>не загружено</div>
+        <?php endif ?>
+
+
+    </div>
+    <div class="col-lg-9">
         <?=
         DetailView::widget([
             'model' => $model,
@@ -43,60 +55,63 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'id',
                 ],
                 [
-                    'attribute' => 'firstname',
-                ],
-                [
-                    'attribute' => 'lastname',
-                ],
-                [
-                    'attribute' => 'middlename',
+                    'attribute' => 'team_id',
+                    'value' => Html::a($model->team->name, ['team/view', 'id' => $model->team_id]),
+                    'format' => 'html',
                 ],
                 [
                     'attribute' => 'birthday',
-                    'format' => 'date',
+//                    'format' => 'date',
+                    'visible' => !empty($model->birthday),
+                    'value' =>Yii::$app->formatter->asDate($model->birthday, 'php:d.m.Y'),
                 ],
                 [
                     'attribute' => 'birth_place',
+                    'visible' => !empty($model->birth_place),
                 ],
                 [
                     'attribute' => 'height',
+                    'visible' => !empty($model->height),
                 ],
                 [
                     'attribute' => 'weight',
+                    'visible' => !empty($model->weight),
                 ],
                 [
                     'attribute' => 'grip',
+                    'visible' => !empty($model->grip),
                 ],
                 [
-                    'attribute' => 'role',
+                    'attribute' => 'role_id',
+                    'value' => $model->role->name,
                 ],
                 [
                     'attribute' => 'death_date',
+                    'visible' => !empty($model->death_date),
                 ],
                 [
                     'attribute' => 'email',
                     'format' => 'email',
+                    'visible' => !empty($model->email),
                 ],
                 [
                     'attribute' => 'phone',
+                    'visible' => !empty($model->phone),
                 ],
                 [
                     'attribute' => 'pass_serial',
+                    'label' => 'Паспорт',
+                    'visible' => !empty($model->pass_serial),
+                    'value' => $model->pass_serial . ' ' . $model->pass_number . ', выдан ' . $model->pass_issued . ' ' . $model->pass_issue_date,
                 ],
-                [
-                    'attribute' => 'pass_number',
-                ],
-                [
-                    'attribute' => 'pass_issue_date',
-                ],
-                [
-                    'attribute' => 'pass_issued',
-                ],
+                
                 [
                     'attribute' => 'foreign_pass',
+                    'visible' => !empty($model->foreign_pass),
                 ],
                 [
                     'attribute' => 'address',
+                    'visible' => !empty($model->address),
                 ],
                 [
                     'attribute' => 'city_id',
@@ -111,13 +126,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'format' => 'datetime',
                 ],
                 [
-                    'attribute' => 'sort',
-                ],
-                [
-                    'attribute' => 'status',
-                    'value' => $model->statusLabel
-                ],
-                [
                     'attribute' => 'creator_id',
                     'format' => 'raw',
                     'value' => $model->creator->getFullNameWithLogin(true, ['target' => '_blank']),
@@ -127,12 +135,38 @@ $this->params['breadcrumbs'][] = $this->title;
                     'format' => 'raw',
                     'value' => $model->updator_id ? $model->updator->getFullNameWithLogin(true, ['target' => '_blank']) : NULL,
                 ],
-                [
-                    'attribute' => 'team_id',
-                    'value' => $model->team->name,
-                ],
             ],
         ])
         ?>
+
     </div>
 </div>
+<?php $main = ob_get_clean() ?>
+
+<?php ob_start(); ?>
+<legend>Игры в этом сезоне</legend>
+<p>Информация отсутствует</p>
+<?php $games = ob_get_clean() ?>
+
+<?=
+\yii\bootstrap\Tabs::widget([
+    'navType' => 'nav-pills',
+    'items' => [
+        [
+            'label' => 'Основное',
+            'content' => $main,
+            'active' => true
+        ],
+        [
+            'label' => 'История игр',
+            'content' => $games,
+            'headerOptions' => [],
+        ],
+//        [
+//            'label' => 'Фотографии',
+//            'enabled' => false,
+//            'content' => '<legend>Фотографии игрока</legend><p>Фотографии отсутствуют</p>',
+//        ],
+    ],
+]);
+?>

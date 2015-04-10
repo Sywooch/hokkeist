@@ -10,16 +10,15 @@ use common\models\Player as playerModel;
 /**
  * player represents the model behind the search form about `common\models\player`.
  */
-class player extends playerModel
-{
+class player extends playerModel {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'height', 'pass_serial', 'pass_number', 'city_id', 'sort', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'team_id'], 'integer'],
-            [['id_', 'firstname', 'lastname', 'middlename', 'birthday', 'grip', 'role', 'death_date', 'birth_place', 'email', 'phone', 'pass_issue_date', 'pass_issued', 'foreign_pass', 'address'], 'safe'],
+            [['id_', 'firstname', 'lastname', 'middlename', 'birthday', 'grip', 'role_id', 'death_date', 'birth_place', 'email', 'phone', 'pass_issue_date', 'pass_issued', 'foreign_pass', 'address'], 'safe'],
             [['weight'], 'number'],
         ];
     }
@@ -27,8 +26,7 @@ class player extends playerModel
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -40,8 +38,7 @@ class player extends playerModel
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = playerModel::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -73,22 +70,24 @@ class player extends playerModel
             'updator_id' => $this->updator_id,
             'status' => $this->status,
             'team_id' => $this->team_id,
-
+            'role_id' => $this->role_id,
         ]);
 
         $query->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname])
-            ->andFilterWhere(['like', 'middlename', $this->middlename])
-            ->andFilterWhere(['like', 'grip', $this->grip])
-            ->andFilterWhere(['like', 'role', $this->role])
-            ->andFilterWhere(['like', 'birth_place', $this->birth_place])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'pass_issued', $this->pass_issued])
-            ->andFilterWhere(['like', 'foreign_pass', $this->foreign_pass])
-            ->andFilterWhere(['like', 'address', $this->address])
+                ->andFilterWhere(['like', 'lastname', $this->lastname])
+                ->andFilterWhere(['like', 'middlename', $this->middlename])
+                ->andFilterWhere(['like', 'grip', $this->grip])
+                ->andFilterWhere(['like', 'birth_place', $this->birth_place])
+                ->andFilterWhere(['like', 'email', $this->email])
+                ->andFilterWhere(['like', 'phone', $this->phone])
+                ->andFilterWhere(['like', 'pass_issued', $this->pass_issued])
+                ->andFilterWhere(['like', 'foreign_pass', $this->foreign_pass])
+                ->andFilterWhere(['like', 'address', $this->address])
                 ->andFilterWhere(['like', 'id_', $this->id_]);
 
         return $dataProvider;
     }
+
+    
+
 }

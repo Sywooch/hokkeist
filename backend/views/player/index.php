@@ -6,6 +6,8 @@ use yii\widgets\Breadcrumbs;
 use yii\helpers\ArrayHelper;
 use common\models\City;
 use yii\helpers\Url;
+use common\models\PlayerRole;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\player */
@@ -77,11 +79,14 @@ echo Breadcrumbs::widget([
 // 		],
                 [
                     'attribute' => 'grip',
-                    'filter' => Html::dropDownList('player[grip]', $searchModel->role, [ 'Левый' => 'Левый', 'Правый' => 'Правый'], ['class' => 'form-control', 'prompt' => '-- Любой --'])
+                    'filter' => Html::dropDownList('player[grip]', $searchModel->role_id, [ 'Левый' => 'Левый', 'Правый' => 'Правый'], ['class' => 'form-control', 'prompt' => '-- Любой --'])
                 ],
                 [
-                    'attribute' => 'role',
-                    'filter' => Html::dropDownList('player[role]', $searchModel->role, [ 'Вратарь' => 'Вратарь', 'Защитник' => 'Защитник', 'Нападающий' => 'Нападающий'], ['class' => 'form-control', 'prompt' => '-- Любой --'])
+                    'attribute' => 'role_id',
+                    'value' => function($model) {
+                        return $model->role->name;
+                    },
+                    'filter' => Html::dropDownList('player[role_id]', $searchModel->role_id, ArrayHelper::map(PlayerRole::find()->all(),'id','name'), ['class' => 'form-control', 'prompt' => '-- Любой --'])
                 ],
 // 		[
 // 		    'attribute' => 'death_date',

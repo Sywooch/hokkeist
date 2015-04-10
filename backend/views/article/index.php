@@ -8,7 +8,7 @@ use yii\widgets\Breadcrumbs;
 /* @var $searchModel app\models\search\article */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Articles';
+$this->title = 'Текстовые материалы';
 $this->params['breadcrumbs'][] = $this->title;
 
 Breadcrumbs::widget([
@@ -22,14 +22,14 @@ Breadcrumbs::widget([
 <!-- begin panel -->
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title">Panel Title</h4>
+        <h4 class="panel-title">Список записей</h4>
     </div>
 
     <div class="panel-body">
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
         <p class="text-right">
-            <?= Html::a('Create Article', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Добавить новый', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
 
         <?=

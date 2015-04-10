@@ -10,6 +10,8 @@ use yii\widgets\Breadcrumbs;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Команды', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$smallText = $model->status == \common\models\Team::STATUS_ACTIVE ? 'Активна' : 'Помещена в архив';
 ?>
 <?php include __DIR__ . '/../sub_views/breadcrumbs.php' ?>
 
@@ -38,8 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php $docs = ob_get_clean() ?>
 
 <?php ob_start(); ?>
-<legend>Осноная информация 
-
+<legend>Основная информация 
     <div class="btn-group pull-right">
         <?= Html::a('<i class="fa fa-lg fa-new"></i> Создать новую команду', ['create'], ['class' => 'btn btn-link btn-sm m-r-5']) ?>
         <?= Html::a('<i class="fa fa-lg fa-edit"></i> Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm m-r-5']) ?>
@@ -55,108 +56,104 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </legend>
 
-    <div class="row">
-        <div class="col-lg-3">
-            <div style="border-radius: 50%; text-align: center; font-size: 26px; font-weight: bold; color:#ccc; padding-top: 124px;  width: 100%; height: 300px; background: #fbfbfb; border: 1px dashed #ccc">Логотип</div>
-        </div>
-        <div class="col-lg-9">
-            <?=
-            DetailView::widget([
-                'model' => $model,
-                'attributes' => [
-                    [
-                        'attribute' => 'id',
-                    ],
-                    [
-                        'attribute' => 'status',
-                        'value' => $model->status == 10 ? 'Активный' : 'Не активный',
-                    ],
-                    [
-                        'attribute' => 'name',
-                    ],
-                    [
-                        'attribute' => 'abbr',
-                    ],
-                    [
-                        'attribute' => 'city_id',
-                        'value' => $model->city->name,
-                    ],
-                    [
-                        'attribute' => 'phone',
-                    ],
-                    [
-                        'attribute' => 'email',
-                        'format' => 'email',
-                    ],
-                    [
-                        'attribute' => 'site',
-                    ],
-                    [
-                        'attribute' => 'site_nhl',
-                    ],
-                    [
-                        'attribute' => 'description',
-                        'format' => 'html',
-                    ],
-                    [
-                        'attribute' => 'sort',
-                    ],
-                    [
-                        'attribute' => 'status',
-                        'value' => $model->statusLabel
-                    ],
-                    [
-                        'attribute' => 'creator_id',
-                        'format' => 'raw',
-                        'value' => $model->creator->getFullNameWithLogin(true, ['target' => '_blank']),
-                    ],
-                    [
-                        'attribute' => 'updator_id',
-                        'format' => 'raw',
-                        'value' => $model->updator_id ? $model->updator->getFullNameWithLogin(true, ['target' => '_blank']) : NULL,
-                    ],
-                    [
-                        'attribute' => 'organization_id',
-                        'value' => $model->organization->name,
-                    ],
-                ],
-            ])
+<div class="row">
+    <div class="col-lg-3">
+        <?php
+        if (!$model->isNewRecord && $image = $model->getImage('_medium', ['style' => 'max-width:100%'])):
+            echo $image;
+        else :
             ?>
+            <div style="text-align: center; font-size: 26px; color:#ccc; padding-top: 124px;  width: 100%; height: 300px;">Логотип<br/>не загружен</div>
+        <?php endif ?>
 
-        </div>
+
     </div>
+    <div class="col-lg-9">
+        <h4>О команде</h4>
+        <?= $model->description ? $model->description : '<p><i>Описание отсутствует</i></p>'; ?>
+        <?=
+        DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                [
+                    'attribute' => 'id',
+                ],
+                [
+                    'attribute' => 'abbr',
+                ],
+                [
+                    'attribute' => 'city_id',
+                    'value' => $model->city->name,
+                ],
+                [
+                    'attribute' => 'phone',
+                    'visible' => !empty($model->phone),
+                ],
+                [
+                    'attribute' => 'email',
+                    'format' => 'email',
+                    'visible' => !empty($model->email),
+                ],
+                [
+                    'attribute' => 'site',
+                    'visible' => !empty($model->site),
+                ],
+                [
+                    'attribute' => 'site_nhl',
+                    'visible' => !empty($model->site_nhl),
+                ],
+                [
+                    'attribute' => 'organization_id',
+                    'value' => $model->organization->name,
+                ],
+                [
+                    'attribute' => 'creator_id',
+                    'format' => 'raw',
+                    'value' => $model->creator->getFullNameWithLogin(true, ['target' => '_blank']),
+                ],
+                [
+                    'attribute' => 'updator_id',
+                    'format' => 'raw',
+                    'value' => $model->updator_id ? $model->updator->getFullNameWithLogin(true, ['target' => '_blank']) : NULL,
+                ],
+            ],
+        ])
+        ?>
+
+    </div>
+</div>
 
 
-    <?php $main = ob_get_clean() ?>
+<?php $main = ob_get_clean() ?>
 
-    <?=
-    \yii\bootstrap\Tabs::widget([
-        'navType' => 'nav-pills',
-        'items' => [
-            [
-                'label' => 'Основное',
-                'content' => $main,
-                'active' => true
-            ],
-            [
-                'label' => 'Команда',
-                'content' => $players,
-                'headerOptions' => [],
-            ],
-            [
-                'label' => 'История игр',
-                'content' => $games,
-                'headerOptions' => [],
-            ],
-            [
-                'label' => 'Документы',
-                'content' => $docs,
-                'headerOptions' => [],
-            ],
-            [
-                'label' => 'Фотографии',
-                'content' => '<legend>Фотографии команды</legend><p>Фотографии отсутствуют</p>',
-            ],
+<?=
+\yii\bootstrap\Tabs::widget([
+    'navType' => 'nav-pills',
+    'items' => [
+        [
+            'label' => 'Основное',
+            'content' => $main,
+            'active' => true
         ],
-    ]);
-    ?>
+        [
+            'label' => 'Игроки',
+            'content' => $players,
+            'headerOptions' => [],
+        ],
+        [
+            'label' => 'История игр',
+            'content' => $games,
+            'headerOptions' => [],
+        ],
+        [
+            'label' => 'Документы',
+            'content' => $docs,
+            'headerOptions' => [],
+        ],
+        [
+            'label' => 'Фотографии',
+            'content' => '<legend>Фотографии команды</legend><p>Фотографии отсутствуют</p>',
+        ],
+    ],
+]);
+?>

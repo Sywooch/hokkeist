@@ -30,7 +30,7 @@ class ArticleController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-       
+
         $searchModel = new articleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -58,12 +58,24 @@ class ArticleController extends Controller {
      */
     public function actionCreate() {
         $model = new Article();
-        $model->loadDefaultValues();      
-        
-        
-        
+        $model->loadDefaultValues();
+
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            switch ($model->close) {
+                case 'closeAll':
+                    return $this->redirect(['index']);
+                    break;
+                case 'closeAndNew':
+                    return $this->redirect(['create']);
+                    break;
+                case 'closeAndView':
+                    return $this->redirect(['update', 'id' => $model->id]);
+                    break;
+                default:
+                    return $this->redirect(['update', 'id' => $model->id]);
+                    break;
+            }
         } else {
             $model->publish_at = date("Y-m-d H:i");
             return $this->render('create', [
@@ -80,12 +92,23 @@ class ArticleController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            switch ($model->close) {
+                case 'closeAll':
+                    return $this->redirect(['index']);
+                    break;
+                case 'closeAndNew':
+                    return $this->redirect(['create']);
+                    break;
+                case 'closeAndView':
+                    return $this->redirect(['update', 'id' => $model->id]);
+                    break;
+                default:
+                    return $this->redirect(['update', 'id' => $model->id]);
+                    break;
+            }
         } else {
-            
-            $model->publish_at =  Yii::$app->formatter->asDate($model->publish_at);
+            $model->publish_at = Yii::$app->formatter->asDate($model->publish_at);
             return $this->render('update', [
                         'model' => $model,
             ]);

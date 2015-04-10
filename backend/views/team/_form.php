@@ -12,7 +12,7 @@ use yii\jui\DatePicker;
 ?>
 
 <div class="team-form">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([ 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?php ob_start() ?>
     <legend>Основные данные</legend>
@@ -94,6 +94,22 @@ use yii\jui\DatePicker;
     <?php $tab_3 = ob_get_clean() ?>
 
     <?php ob_start() ?>
+    <legend>Логотип</legend>
+    <?= $form->field($model, 'image_')->fileInput() ?>
+
+    <?php
+    if (!$model->isNewRecord && $image = $model->getImage('_medium', ['style' => 'max-width:100%'])) {
+        echo $form->field($model, 'deleteImage')->checkbox();
+        echo $image;
+    }
+    ?>
+
+    <legend>Фотографии</legend>
+    <p><i>Фотографии отсутствуют</i></p>
+
+    <?php $photos = ob_get_clean() ?>
+
+    <?php ob_start() ?>
     <div class="modal-footer">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
@@ -114,8 +130,8 @@ use yii\jui\DatePicker;
                 'headerOptions' => [],
             ],
             [
-                'label' => 'Фотографии',
-                'content' => '<legend>Фотографии команды</legend><p>Фотографии отсутствуют</p>',
+                'label' => 'Фотографии и логотип',
+                'content' => $photos . $button,
             ],
         ],
     ]);

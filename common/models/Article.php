@@ -30,6 +30,27 @@ use Yii;
  */
 class Article extends BaseModel {
 
+    protected $_imgPath = "@frontend/web/uploads/article/";
+    protected $_img = "/uploads/article/";
+    protected $_imgSizes = ['_small' => ["125", "70"], '_medium' => ["320"], '_large' => ["800"]];
+    public $image_;
+    public $deleteImage;
+    public $close;
+    
+    protected $_imglink = array();
+
+    static function useImages() {
+        return true;
+    }
+
+    static function useFiles() {
+        return true;
+    }
+
+    static function usePhotos() {
+        return true;
+    }
+
     /**
      * @inheritdoc
      */
@@ -50,8 +71,10 @@ class Article extends BaseModel {
         return [
             [['title', 'fulltext', 'category_id', 'publish_at'], 'required'],
             [['subtitle', 'fulltext'], 'string'],
-            [['category_id', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits', 'sort'], 'integer'],
-            [['title', 'author_alias', 'imgtitle'], 'string', 'max' => 255]
+            [['category_id', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits', 'sort', 'deleteImage', 'imagever'], 'integer'],
+            [['title', 'author_alias', 'imgtitle'], 'string', 'max' => 255],
+            [['image_'], 'image', 'skipOnEmpty' => true],
+            [['close'], 'safe'],
         ];
     }
 
@@ -76,15 +99,17 @@ class Article extends BaseModel {
             'imgtitle' => 'Подпись изображения',
             'showImage' => 'Показывать изображение внутри материала',
             'hits' => 'Просмотров',
-            'sort' => 'Сортировка'
+            'sort' => 'Сортировка',
+            'image_' => 'Основное изображение',
+            'deleteImage' => 'Удалить изображение',
+            'imagever' => 'Версия файла изображения'
         ];
     }
 
-    public static function find()
-    {
+    public static function find() {
         return new ArticleQuery(get_called_class());
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -99,12 +124,19 @@ class Article extends BaseModel {
         return $this->hasOne(ArticleCategory::className(), ['id' => 'category_id']);
     }
 
+    /**
+     * @return Ссылку на метериал
+     */
+    public function getLink($absolute = false) {
+        return \yii\helpers\Url::to(['article/view', 'category' => $this->category->alias, 'id' => $this->id], $absolute);
+    }
+
 }
 
 class ArticleQuery extends ActiveQuery {
-    
+
     public function published() {
         return $this->andWhere(['<', 'publish_at', time()])->andWhere(['=', 'status', Article::STATUS_ACTIVE]);
     }
-    
+
 }

@@ -1,34 +1,34 @@
 <?php
 
 namespace frontend\controllers;
+
 use common\models\ArticleCategory;
 use common\models\Article;
 use yii\web\NotFoundHttpException;
 
-class ArticleController extends \yii\web\Controller
-{
-	public $layout = 'content';
+class ArticleController extends \yii\web\Controller {
 
-    public function actionIndex($category)
-    {
+    public $layout = 'content';
 
-    	$categoryModel = ArticleCategory::find()->where('alias = "' . $category .'"')->one();
-    	if(!$categoryModel){
-    		throw new NotFoundHttpException('Страница не нейдена');
-    	}
+    public function actionIndex($category) {
 
-    	$model = Article::find()->where('category_id = ' . $categoryModel->id)->published()->all();
+        $categoryModel = ArticleCategory::find()->where('alias = "' . $category . '"')->one();
+        if (!$categoryModel) {
+            throw new NotFoundHttpException('Страница не нейдена');
+        }
 
-    	if(!$model){
-    		throw new NotFoundHttpException('Страница не нейдена');
-    	}
+        $model = Article::find()->where('category_id = ' . $categoryModel->id)->published()->all();
+        if (!$model) {
+            throw new NotFoundHttpException('Страница не нейдена');
+        }
 
-        return $this->render('index',['model' => $model,'categry' => $categoryModel]);
+        return $this->render('index', ['model' => $model, 'category' => $categoryModel]);
     }
 
-    public function actionView($category, $id)
-    {
-        return $this->render('view');
+    public function actionView($category, $id) {
+        $model = Article::findOne($id);
+
+        return $this->render('view', ['model' => $model]);
     }
 
 }

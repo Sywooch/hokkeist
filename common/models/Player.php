@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use \Imagine\Gmagick\Image;
 
 /**
  * This is the model class for table "player".
@@ -15,7 +16,7 @@ use Yii;
  * @property integer $height
  * @property double $weight
  * @property string $grip
- * @property string $role
+ * @property string $role_id
  * @property string $death_date
  * @property string $birth_place
  * @property string $email
@@ -40,6 +41,27 @@ use Yii;
  */
 class Player extends BaseModel {
 
+    public $image;
+
+    protected $_imgPath = "@frontend/web/uploads/player/";
+    protected $_img = "/uploads/player/";
+    protected $_imgSizes = ['_small' => ["58", "58"], '_medium' => ["265", "265"], '_large' => ["800"]];
+    public $image_;
+    public $deleteImage;
+    protected $_imglink = array();
+    
+    static function useImages() {
+        return true;
+    }
+
+    static function useFiles() {
+        return true;
+    }
+
+    static function usePhotos() {
+        return true;
+    }
+    
     /**
      * @inheritdoc
      */
@@ -52,16 +74,17 @@ class Player extends BaseModel {
      */
     public function rules() {
         return [
-//            [['firstname', 'lastname', 'birthday', 'height', 'grip', 'role', 'phone', 'city_id'], 'required'],
+//            [['firstname', 'lastname', 'birthday', 'height', 'grip', 'role_id', 'phone', 'city_id'], 'required'],
             [['firstname', 'lastname', 'birthday', 'city_id', 'id_'], 'required'],
             [['birthday', 'death_date', 'pass_issue_date'], 'safe'],
-            [['height', 'pass_serial', 'pass_number', 'city_id', 'sort', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'team_id'], 'integer'],
+            [['height', 'role_id', 'pass_serial', 'pass_number', 'city_id', 'sort', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'team_id', 'deleteImage'], 'integer'],
             [['weight'], 'number'],
-            [['grip', 'role'], 'string'],
+            [['grip'], 'string'],
             [['firstname', 'lastname', 'middlename', 'email', 'pass_issued'], 'string', 'max' => 100],
             [['birth_place', 'foreign_pass', 'address'], 'string', 'max' => 150],
             [['phone'], 'string', 'max' => 50],
-            [['birth_certificate', 'id_'], 'string', 'max' => 20]
+            [['birth_certificate', 'id_'], 'string', 'max' => 20],
+            [['image_'], 'image', 'skipOnEmpty' => true],
         ];
     }
 
@@ -78,7 +101,7 @@ class Player extends BaseModel {
             'height' => 'Рост',
             'weight' => 'Вес',
             'grip' => 'Хват',
-            'role' => 'Амплуа',
+            'role_id' => 'Амплуа',
             'death_date' => 'Дата смерти',
             'birth_place' => 'Место рождения',
             'email' => 'Email',
@@ -98,7 +121,9 @@ class Player extends BaseModel {
             'status' => 'Активный',
             'team_id' => 'Команда',
             'id_' => 'Идентификационный номер',
-            'birth_certificate' => 'Серия и номер св-ва о рождении'
+            'birth_certificate' => 'Серия и номер св-ва о рождении',
+            'image_' => 'Основная фотография игрока',
+            'deleteImage' => 'Удалить изображение',
         ];
     }
 
@@ -114,6 +139,10 @@ class Player extends BaseModel {
      */
     public function getTeam() {
         return $this->hasOne(Team::className(), ['id' => 'team_id']);
+    }
+
+    public function getRole() {
+        return $this->hasOne(PlayerRole::className(), ['id' => 'role_id']);
     }
 
     public function getTeamList() {
@@ -151,8 +180,6 @@ class Player extends BaseModel {
         return true;
     }
 
-    public function hasPhoto() {
-        return false;
-    }
+
 
 }

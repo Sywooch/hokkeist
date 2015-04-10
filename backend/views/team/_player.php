@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 <legend><?= $model->lastname . ' ' . $model->firstname . ' ' . $model->middlename ?></legend>
 <div class="row">
     <div class="col-xs-2 col-lg-2">
-        фотграфия
+        Фотография
     </div>
     <div class="col-xs-5 col-lg-5">
         <?=
@@ -28,7 +28,8 @@ use yii\widgets\DetailView;
                     'attribute' => 'grip',
                 ],
                 [
-                    'attribute' => 'role',
+                    'attribute' => 'role_id',
+                    'value' => $model->role->name,
                 ],
                 [
                     'attribute' => 'city_id',

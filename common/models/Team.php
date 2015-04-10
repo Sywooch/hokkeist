@@ -29,6 +29,24 @@ use Yii;
 class Team extends BaseModel {
 
     public $logo;
+    protected $_imgPath = "@frontend/web/uploads/team/";
+    protected $_img = "/uploads/team/";
+    protected $_imgSizes = ['_small' => ["58", "58"], '_medium' => ["265", "265"], '_large' => ["800"]];
+    public $image_;
+    public $deleteImage;
+    protected $_imglink = array();
+
+    static function useImages() {
+        return true;
+    }
+
+    static function useFiles() {
+        return true;
+    }
+
+    static function usePhotos() {
+        return true;
+    }
 
     /**
      * @inheritdoc
@@ -42,12 +60,13 @@ class Team extends BaseModel {
      */
     public function rules() {
         return [
-            [['status', 'sort', 'city_id', 'creator_id', 'updator_id', 'organization_id'], 'integer'],
+            [['status', 'sort', 'city_id', 'creator_id', 'updator_id', 'organization_id', 'deleteImage'], 'integer'],
             [['abbr', 'name', 'city_id', 'organization_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['description'], 'string'],
             [['name', 'email', 'site', 'site_nhl'], 'string', 'max' => 255],
             [['abbr', 'phone'], 'string', 'max' => 100],
+            [['image_'], 'image', 'skipOnEmpty' => true],
             ['logo', 'file'],
         ];
     }
@@ -73,7 +92,9 @@ class Team extends BaseModel {
             'site_nhl' => 'Сайт в НХЛ',
             'description' => 'Описание команды',
             'logo' => 'Логотип команды',
-            'organization_id' => 'Организация'
+            'organization_id' => 'Организация',
+            'image_' => 'Логотип команды',
+            'deleteImage' => 'Удалить логотип'
         ];
     }
 
@@ -102,7 +123,7 @@ class Team extends BaseModel {
         $phone = $this->phone ? 'тел.: ' . $this->phone . '<br />' : '';
         $email = $this->email ? 'email: ' . $this->email . '<br />' : '';
         $site = $this->site ? 'сайт: ' . $this->site . '' : '';
-        return  $phone . $email . $site;
+        return $phone . $email . $site;
     }
 
 }

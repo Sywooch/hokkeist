@@ -14,7 +14,7 @@ use common\models\Team;
 
 <div class="player-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([ 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
 
     <?php ob_start() ?>
@@ -69,7 +69,7 @@ use common\models\Team;
             <?= $form->field($model, 'grip')->dropDownList([ 'Левый' => 'Левый', 'Правый' => 'Правый',], ['prompt' => '']) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'role')->dropDownList([ 'Вратарь' => 'Вратарь', 'Защитник' => 'Защитник', 'Нападающий' => 'Нападающий',], ['prompt' => '']) ?>
+            <?= $form->field($model, 'role_id')->dropDownList(ArrayHelper::map(\common\models\PlayerRole::find()->all(), 'id', 'name'), ['prompt' => '']) ?>
         </div>
     </div>
     <?= $form->field($model, 'team_id')->dropDownList($model->teamList, ['prompt' => '']) ?>
@@ -186,6 +186,19 @@ use common\models\Team;
     </div>
     <?php $button = ob_get_clean() ?>
 
+
+    <?php ob_start() ?>
+    <?= $form->field($model, 'image_')->fileInput() ?>
+
+    <?php
+    if (!$model->isNewRecord && $image = $model->getImage('_medium', ['style' => 'max-width:100%'])) {
+        echo $form->field($model, 'deleteImage')->checkbox();
+        echo $image;
+    }
+    ?>
+    <?php $image = ob_get_clean() ?>
+
+
     <?=
     \yii\bootstrap\Tabs::widget([
         'navType' => 'nav-pills',
@@ -207,7 +220,7 @@ use common\models\Team;
             ],
             [
                 'label' => 'Фотографии',
-                'content' => '<legend>Фотографии игрока</legend><p>Фотографии отсутствуют</p>',
+                'content' => $image . $button,
             ],
         ],
     ]);

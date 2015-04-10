@@ -3,6 +3,10 @@
 namespace common\models;
 
 use Yii;
+use \yii\imagine\Image;
+
+//use Imagine\Image\Box;
+//use Imagine\Gd\Imagine;
 
 /**
  * This is the model class for table "stadium".
@@ -31,8 +35,70 @@ class BaseModel extends \yii\db\ActiveRecord {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    protected $_imgPath = "";
+    protected $_imgSizes = [];
+    protected $_tempDir = "@frontend/temp/";
+
+//    protected $image_;
+
+
+    static function useImages() {
+        return FALSE;
+    }
+
+    static function useFiles() {
+        return FALSE;
+    }
+
+    static function usePhotos() {
+        return FALSE;
+    }
+
+    static function useMap() {
+        return FALSE;
+    }
+
+    /**
+     * @return Изображение материала
+     */
+    public function getImage($type = '_medium', $options = array()) {
+        return $this->imageLink ? \yii\helpers\Html::img($this->getImageLink($type), $options) : NULL;
+    }
+
+    public function getImageLink($type = '_medium') {
+        if ($this->_imglink[$type])
+            return $this->_imglink[$type];
+
+        $url = Yii::$app->params['frontendUrl'];
+        $path = $this->id . $type . '.jpg';
+        if (is_file($this->getImgPath() . $path)) {
+            $this->_imglink[$type] = $url . $this->_img . $path . '?ver=' . $this->imagever;
+            return $this->_imglink[$type];
+        }
+        return NULL;
+    }
+
+//    public $imagever;
+//    protected $_image;
+
+    public function getImgPath() {
+        return Yii::getAlias($this->_imgPath);
+    }
+
+    public function getImgSizes() {
+        return $this->_imgSizes;
+    }
+
+    public function getTempDir() {
+        return Yii::getAlias($this->_tempDir);
+    }
+
     public function beforeSave($insert) {
         parent::beforeSave($insert);
+
+        $file = \yii\web\UploadedFile::getInstance($this, 'image_');
+        if ($file)
+            $this->image_ = $file;
 
         $user_id = Yii::$app->user->identity->id;
         if ($this->isNewRecord) {
@@ -43,7 +109,65 @@ class BaseModel extends \yii\db\ActiveRecord {
             $this->updator_id = $user_id;
         }
 
+        //Удаление изображения если это необходимо
+        if ($this->deleteImage)
+            static::deleteImage($this);
+
+        if ($this->image_ && isset($this->imagever))
+            $this->imagever++;
+
         return true;
+    }
+
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+
+        if (static::useImages() && !empty($this->image_))
+            self::generateLoadedImage($this);
+    }
+
+    static function generateLoadedImage(BaseModel $model) {
+        static::deleteImage($model);
+
+        $tempDir = $model->getImgPath();
+        $dir = $model->getImgPath();
+        $original = $dir . $model->id . '_original.jpg';
+
+        if (!is_dir($dir))
+            mkdir($dir);
+//        die($original);
+//        \yii\helpers\VarDumper::dump($model->image_);
+//        die();
+
+        if (@$model->image_->saveAs($original)) {
+            foreach ($model->getImgSizes() as $key => $size) {
+                $img = Image::getImagine()->open($original);
+                $size_ = $img->getSize();
+                $ratio = $size_->getWidth() / $size_->getHeight();
+                $width = $size[0];
+                $height = !isset($size[1]) ? round($width / $ratio) : $size[1];
+
+                Image::thumbnail($original, $width, $height)
+                        ->save($dir . $model->id . $key . '.jpg', ['quality' => 80]);
+            }
+        } else {
+            Yii::$app->session->setFlash('error', "Ошибка при сохранении изображения");
+        }
+    }
+
+    static function deleteImage(BaseModel $model) {
+        $dir = $model->getImgPath();
+        foreach ($model->getImgSizes() as $key => $size) {
+            @unlink($dir . $model->id . $key . '.jpg');
+        }
+        @unlink($dir . $model->id . '_original.jpg');
+    }
+
+    public function beforeDelete() {
+        parent::beforeDelete();
+
+        if (static::useImages())
+            static::deleteImage($this);
     }
 
 //    public static function active($query) {
@@ -53,6 +177,7 @@ class BaseModel extends \yii\db\ActiveRecord {
     public static function find() {
         return parent::find()->andWhere('status = ' . self::STATUS_ACTIVE);
     }
+
     public static function findAnyWhere() {
         return parent::find()->orderBy('status DESC, sort ASC, id DESC');
     }
@@ -77,9 +202,14 @@ class BaseModel extends \yii\db\ActiveRecord {
         $this->status = self::STATUS_DELETED;
         return $this->save();
     }
-    
+
     public function getStatusLabel() {
         return $this->status == self::STATUS_ACTIVE ? 'Да' : 'Удален';
+    }
+
+    static function loadImage($id, $image) {
+
+        return true;
     }
 
 }
