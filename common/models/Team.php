@@ -35,6 +35,7 @@ class Team extends BaseModel {
     public $image_;
     public $deleteImage;
     protected $_imglink = array();
+    protected $_emptyImgUrl = "/img/template/team_empty.jpg";
 
     static function useImages() {
         return true;

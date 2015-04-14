@@ -18,9 +18,16 @@ return [
 //            'scriptUrl' => 'index.php',
             'showScriptName' => false,
             'rules' => [
-                'player/<id>' => 'player/view',
-                'team/<id>' => 'team/view',
+
+                'player/<id:\d+>' => 'player/view',
+                'player/<id:\d+>/<controller:\w+>' => 'player/<controller>',
+                'team/<id:\d+>' => 'team/view',
+                'team/<id:\d+>/<controller:\w+>' => 'team/<controller>',
+                'competition/<id:\d+>' => 'competition/view',
+//                'competition/<id:\d+>/<controller:\w+>' => 'team/<controller>',
+                '<controller>' => '<controller>/index',
 //                'news' => 'article/index',
+                '<category:(contacts|about|leadership)>' => 'article/single',
                 '<category:(news|history|official|media)>' => 'article/index',
                 '<category:(news|history|official|media)>/<id>' => 'article/view',
             ],

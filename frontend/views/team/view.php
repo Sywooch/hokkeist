@@ -1,11 +1,17 @@
 <?php
 /* @var $this yii\web\View */
+$this->title = 'Хоккейная команда "' . $model->name . '", ' . $model->city->name . ' - история игр, статистика, состав команды';
 ?>
 
 <div class="player-container">
     <div class="col-lg-6">
-        <div id="player-cursor">
-        </div>
+        <?php if (!$model->getImageLink('_medium', false, false)) : ?>
+            <div id="player-cursor"></div>
+            <img width="265" height="265" src="/img/template/player-border.png" id="player-border">
+            <img width="265" height="265" alt="<?= $model->name ?>" src="<?= $model->imageLink ?>" id="player-main-foto">
+        <?php else: ?>
+
+        <?php endif; ?>
     </div>
     <div style="padding: 25px 0 25px 30px;" class="col-lg-6">
         <div class="col-xs-12">
@@ -21,7 +27,7 @@
                 Основан в
             </div>
             <div class="title">
-                ----
+                ---
             </div>
         </div>
         <div class="clearfix">
@@ -40,7 +46,7 @@
             <div class="sub-title">
                 Главный тренер
             </div>
-            <div class="title">-----</div>
+            <div class="title">---</div>
         </div>
         <div class="clearfix">
         </div>
@@ -111,7 +117,7 @@
                             <td>
                                 <a href="<?= yii\helpers\Url::to(['player/view', 'id' => $player->id]) ?>"><?= $player->fullname ?></a>
                             </td>
-                            <td><?= $player->role ?></td>
+                            <td><?= $player->role->name ?></td>
                             <td><?= Yii::$app->formatter->asDate($player->birthday) . ' (' . $player->age . ' лет)' ?></td>
                             <td><?= $player->city->name ?></td>
                         </tr>

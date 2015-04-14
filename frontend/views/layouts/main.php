@@ -26,8 +26,9 @@ AppAsset::register($this);
         </div>
 
         <?php require '_header.php'; ?>
-        <?php require_once '_tournaiment.php'; ?>
-        
+
+        <?= frontend\widgets\TournaimentBlock::widget(['options' => ['visible' => 1]]) ?>
+
         <div class="row sun-light-1">
             <div class="container" style="padding-left:0; padding-right: 0;">
                 <div class="col-lg-9 no-padding">
@@ -38,7 +39,7 @@ AppAsset::register($this);
                 </div>
             </div>
         </div>
-        
+
         <?php require_once '_partners.php'; ?>
         <?php require_once '_footerMenu.php'; ?>
         <?php require_once '_footer.php'; ?>

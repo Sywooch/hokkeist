@@ -52,7 +52,7 @@ $smallText = $model->status == \common\models\Team::STATUS_ACTIVE ? 'Актив�
             'model' => $model,
             'attributes' => [
                 [
-                    'attribute' => 'id',
+                    'attribute' => 'id_',
                 ],
                 [
                     'attribute' => 'team_id',

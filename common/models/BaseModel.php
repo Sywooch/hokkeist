@@ -38,7 +38,7 @@ class BaseModel extends \yii\db\ActiveRecord {
     protected $_imgPath = "";
     protected $_imgSizes = [];
     protected $_tempDir = "@frontend/temp/";
-
+    protected $_emptyImgUrl = NULL;
 //    protected $image_;
 
 
@@ -65,7 +65,7 @@ class BaseModel extends \yii\db\ActiveRecord {
         return $this->imageLink ? \yii\helpers\Html::img($this->getImageLink($type), $options) : NULL;
     }
 
-    public function getImageLink($type = '_medium') {
+    public function getImageLink($type = '_medium', $small = false, $empty = true) {
         if ($this->_imglink[$type])
             return $this->_imglink[$type];
 
@@ -75,7 +75,7 @@ class BaseModel extends \yii\db\ActiveRecord {
             $this->_imglink[$type] = $url . $this->_img . $path . '?ver=' . $this->imagever;
             return $this->_imglink[$type];
         }
-        return NULL;
+        return $empty ? static::getEmptyImageUrl($this, $small) : NULL;
     }
 
 //    public $imagever;
@@ -125,6 +125,10 @@ class BaseModel extends \yii\db\ActiveRecord {
         if (static::useImages() && !empty($this->image_))
             self::generateLoadedImage($this);
     }
+    
+    static function getEmptyImageUrl(BaseModel $model, $small = false) {
+        return !$small ?  Yii::getAlias($model->_emptyImgUrl) : Yii::getAlias($model->_emptySmallImgUrl);
+    }
 
     static function generateLoadedImage(BaseModel $model) {
         static::deleteImage($model);
@@ -138,7 +142,7 @@ class BaseModel extends \yii\db\ActiveRecord {
 //        die($original);
 //        \yii\helpers\VarDumper::dump($model->image_);
 //        die();
-
+        ini_set('upload_max_filesize','20000');
         if (@$model->image_->saveAs($original)) {
             foreach ($model->getImgSizes() as $key => $size) {
                 $img = Image::getImagine()->open($original);
@@ -151,7 +155,7 @@ class BaseModel extends \yii\db\ActiveRecord {
                         ->save($dir . $model->id . $key . '.jpg', ['quality' => 80]);
             }
         } else {
-            Yii::$app->session->setFlash('error', "Ошибка при сохранении изображения");
+            Yii::$app->session->setFlash('error', "Ошибка при сохранении изображения: " . $model->image_->error);
         }
     }
 

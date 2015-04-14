@@ -25,7 +25,7 @@ class AppAsset extends AssetBundle {
     ];
     public $js = [
         'js/owl.carousel.js',
-        'js/dropdown.js',
+//        'js/dropdown.js',
         'js/main.js',
         'js/modal-reg.js',
     ];

@@ -10,15 +10,14 @@ use common\models\Article as ArticleModel;
 /**
  * article represents the model behind the search form about `common\models\Article`.
  */
-class article extends ArticleModel
-{
+class article extends ArticleModel {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['id', 'category_id', 'publish_at', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits','sort'], 'integer'],
+            [['id', 'category_id', 'publish_at', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'status', 'comments', 'showImage', 'hits', 'sort'], 'integer'],
             [['title', 'subtitle', 'fulltext', 'author_alias', 'imgtitle'], 'safe'],
         ];
     }
@@ -26,8 +25,7 @@ class article extends ArticleModel
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,10 +37,11 @@ class article extends ArticleModel
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Article::find();
 
+        if (!$params['sort'])
+            $query->orderBy('sort,ID DESC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -71,11 +70,12 @@ class article extends ArticleModel
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'subtitle', $this->subtitle])
-            ->andFilterWhere(['like', 'fulltext', $this->fulltext])
-            ->andFilterWhere(['like', 'author_alias', $this->author_alias])
-            ->andFilterWhere(['like', 'imgtitle', $this->imgtitle]);
+                ->andFilterWhere(['like', 'subtitle', $this->subtitle])
+                ->andFilterWhere(['like', 'fulltext', $this->fulltext])
+                ->andFilterWhere(['like', 'author_alias', $this->author_alias])
+                ->andFilterWhere(['like', 'imgtitle', $this->imgtitle]);
 
         return $dataProvider;
     }
+
 }

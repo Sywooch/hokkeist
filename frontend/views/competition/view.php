@@ -1,9 +1,14 @@
 <?php
-/* @var $this yii\web\View */
+
+use yii\helpers\Url;
+
+$this->title = $model->name . ', ' . $model->season->name;
 ?>
-<h1>competition/view</h1>
+<h1><?= $model->name ?> <small><?=$model->season->name ?></small></h1>
 
 <p>
-    You may change the content of this page by modifying
-    the file <code><?= __FILE__; ?></code>.
+    Информация по данному соревнованию временно отсутствует.
 </p>
+
+<?= $this->render('_footer',['model' => $model]) ?>
+

@@ -42,14 +42,17 @@ use \Imagine\Gmagick\Image;
 class Player extends BaseModel {
 
     public $image;
-
     protected $_imgPath = "@frontend/web/uploads/player/";
     protected $_img = "/uploads/player/";
     protected $_imgSizes = ['_small' => ["58", "58"], '_medium' => ["265", "265"], '_large' => ["800"]];
     public $image_;
     public $deleteImage;
-    protected $_imglink = array();
     
+    protected $_emptyImgUrl = "/img/template/player_empty.jpg";
+    protected $_emptySmallImgUrl = "/img/template/player_small_empty.jpg";
+    
+    protected $_imglink = array();
+
     static function useImages() {
         return true;
     }
@@ -61,7 +64,7 @@ class Player extends BaseModel {
     static function usePhotos() {
         return true;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -179,7 +182,5 @@ class Player extends BaseModel {
         $this->birthday = Yii::$app->formatter->asDate($this->birthday, 'yyyy-MM-dd');
         return true;
     }
-
-
 
 }

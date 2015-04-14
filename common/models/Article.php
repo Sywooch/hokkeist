@@ -30,9 +30,12 @@ use Yii;
  */
 class Article extends BaseModel {
 
+
     protected $_imgPath = "@frontend/web/uploads/article/";
     protected $_img = "/uploads/article/";
-    protected $_imgSizes = ['_small' => ["125", "70"], '_medium' => ["320"], '_large' => ["800"]];
+    protected $_imgSizes = ['_small' => ["125", "70"], '_medium' => ["470"], '_large' => ["800"]];
+    
+    
     public $image_;
     public $deleteImage;
     public $close;
@@ -130,13 +133,12 @@ class Article extends BaseModel {
     public function getLink($absolute = false) {
         return \yii\helpers\Url::to(['article/view', 'category' => $this->category->alias, 'id' => $this->id], $absolute);
     }
-
 }
 
 class ArticleQuery extends ActiveQuery {
 
     public function published() {
-        return $this->andWhere(['<', 'publish_at', time()])->andWhere(['=', 'status', Article::STATUS_ACTIVE]);
+        return $this->andWhere(['<', 'publish_at', time()])->andWhere(['=', 'status', Article::STATUS_ACTIVE])->orderBy('sort, publish_at DESC');
     }
 
 }

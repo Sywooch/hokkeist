@@ -38,9 +38,11 @@ use common\models\Team;
             <?=
             $form->field($model, 'birthday')->widget('yii\jui\DatePicker', [
                 'options' => ['class' => 'form-control'],
+                'dateFormat' => 'dd.MM.yyyy',
                 'clientOptions' => [
                     'changeYear' => true,
                     'changeMonth' => true,
+//                    'dateFormat' => 'yyyy-MM-dd',
                     'yearRange' => (date('Y') - Yii::$app->params['age']['max']) . ':' . (date('Y') - Yii::$app->params['age']['min'])
                 ],
             ])
@@ -188,14 +190,17 @@ use common\models\Team;
 
 
     <?php ob_start() ?>
+    <legend>Основная фотография игрока</legend>
     <?= $form->field($model, 'image_')->fileInput() ?>
 
     <?php
     if (!$model->isNewRecord && $image = $model->getImage('_medium', ['style' => 'max-width:100%'])) {
         echo $form->field($model, 'deleteImage')->checkbox();
-        echo $image;
+        echo Html::tag('div', $image, ['class' => 'form-group']);
     }
     ?>
+    <legend>Фотографии где был отмечен игрок</legend>
+    <p>Информация отсутствует</p>
     <?php $image = ob_get_clean() ?>
 
 

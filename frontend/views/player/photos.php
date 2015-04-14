@@ -1,11 +1,12 @@
 <?php
 /* @var $this yii\web\View */
+$this->title = "Фотографии игрока: " . $model->fullname . '(ХК "' . $model->team->name . ", " . $model->city->name . ')';
 ?>
 <div class="content-container">
-    <h1>player/photos</h1>
+    <h1><?= $this->title ?></h1>
 
     <p>
-        You may change the content of this page by modifying
-        the file <code><?= __FILE__; ?></code>.
+        К сожалению, фотографии этого игрока пока отсутствует.
     </p>
+    <p><?= yii\helpers\Html::a('Вернуться назад', ['player/view', 'id' => $model->id]) ?></p>
 </div>

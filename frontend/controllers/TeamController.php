@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\controllers;
+use yii\data\Pagination;
 
 class TeamController extends \yii\web\Controller
 {
@@ -9,10 +10,17 @@ class TeamController extends \yii\web\Controller
         return $this->render('history');
     }
 
-    public function actionIndex()
+    public function actionIndex($c = NULL)
     {
-        $model = \common\models\Team::find()->all();
-        return $this->render('index',['model' => $model]);
+        $query = \common\models\Team::find();
+        if ($c) {
+            $query->where('LOWER(name) LIKE "' . $c . '%"');
+        }
+        $pagination = new Pagination(['totalCount' => $query->count(), 'pageSize' => 10]);
+        $model = $query->all();
+
+        return $this->render('index', ['model' => $model, 'pagination' => $pagination]);
+
     }
 
     public function actionView($id)

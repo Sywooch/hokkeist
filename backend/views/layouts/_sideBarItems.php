@@ -2,6 +2,7 @@
 $menuItems = [
     ['label' => 'Главная', 'url' => ['/site/index'], 'icon' => 'laptop'],
     '<li class="nav-header">Игры</li>',
+    ['label' => 'Материалы', 'url' => ['/article/index'], 'icon' => 'users', 'active' => 'article' === Yii::$app->controller->id],
     ['label' => 'Команды', 'url' => ['/team/index'], 'icon' => 'users', 'active' => 'team' === Yii::$app->controller->id],
 //    ['label' => 'Команды', 'url' => 'javascript:;', 'icon' => 'users', 'items' => [
 //            ['label' => 'Команды', 'url' => ['/team/index'], 'active' => 'team' === Yii::$app->controller->id],

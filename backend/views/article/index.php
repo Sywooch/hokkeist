@@ -49,23 +49,28 @@ Breadcrumbs::widget([
                         return Html::a($model->title, ['update', 'id' => $model->id]);
                     }
                         ],
-                        [
-                            'attribute' => 'subtitle',
-                            'format' => 'ntext',
-                            'value' => function($model, $index, $widget) {
-                                return \yii\helpers\StringHelper::truncateWords(strip_tags($model->subtitle), 10);
-                            }
-                        ],
+//                        [
+//                            'attribute' => 'subtitle',
+//                            'format' => 'ntext',
+//                            'value' => function($model, $index, $widget) {
+//                                return \yii\helpers\StringHelper::truncateWords(strip_tags($model->subtitle), 10);
+//                            }
+//                        ],
                         [
                             'attribute' => 'category_id',
                             'value' => function($model, $index, $widget) {
                                 return $model->category->name;
                             },
-                            'filter' => Html::dropDownList('Article[category_id]', $searchModel->category_id, \yii\helpers\ArrayHelper::map(common\models\ArticleCategory::find()->all(), 'id', 'name', 'parent'), ['class' => 'form-control'])
+                            'filter' => Html::dropDownList('Article[category_id]', $searchModel->category_id, \yii\helpers\ArrayHelper::map(common\models\ArticleCategory::find()->all(), 'id', 'name', 'parent_id'), ['class' => 'form-control'])
                         ],
-// 		[
-// 		    'attribute' => 'publish_at',
-// 		],
+ 		[
+ 		    'attribute' => 'publish_at',
+                    'format' => 'date'
+ 		],
+                                    [
+ 		    'attribute' => 'created_at',
+                    'format' => 'date'
+ 		],
 // 		[
 // 		    'attribute' => 'created_at',
 // 		    'format' => 'date',

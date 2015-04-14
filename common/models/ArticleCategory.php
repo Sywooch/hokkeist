@@ -17,24 +17,22 @@ use Yii;
  *
  * @property Article[] $articles
  */
-class ArticleCategory extends \yii\db\ActiveRecord
-{
+class ArticleCategory extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'article_category';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['name', 'alias'], 'required'],
-            [['parent', 'status'], 'integer'],
+            [['parent_id', 'status'], 'integer'],
             [['name', 'alias', 'keywords', 'description'], 'string', 'max' => 255]
         ];
     }
@@ -42,13 +40,12 @@ class ArticleCategory extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'name' => 'Наименование',
             'alias' => 'Псевдоним',
-            'parent' => 'Родительская категория',
+            'parent_id' => 'Родительская категория',
             'status' => 'Статус',
             'keywords' => 'Ключевые слова',
             'description' => 'Описание',
@@ -58,8 +55,12 @@ class ArticleCategory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getArticles()
-    {
+    public function getArticles() {
         return $this->hasMany(Article::className(), ['category_id' => 'id']);
     }
+
+    public function getParent() {
+        return $this->hasOne(ArticleCategory::className(), ['id' => 'parent_id']);
+    }
+
 }
