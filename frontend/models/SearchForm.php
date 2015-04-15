@@ -18,8 +18,8 @@ class SearchForm extends Model {
      */
     public function rules() {
         return [
-            [['text'], 'required'],
-            [['text', 'target'], 'text'],
+//            [['text'], 'required'],
+            [['text', 'target'], 'string'],
         ];
     }
 

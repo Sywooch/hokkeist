@@ -12,13 +12,17 @@ return [
     'modules' => [
     ],
     'components' => [
+        'request' => [
+            'enableCsrfValidation' => true,
+            'enableCookieValidation' => true,
+            'baseUrl' => '/'
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-//            'baseUrl' => '/',
+            'baseUrl' => '/',
 //            'scriptUrl' => 'index.php',
             'showScriptName' => false,
             'rules' => [
-
                 'player/<id:\d+>' => 'player/view',
                 'player/<id:\d+>/<controller:\w+>' => 'player/<controller>',
                 'team/<id:\d+>' => 'team/view',

@@ -17,7 +17,7 @@ $this->title = $title;
                 </a>
             </div>
             <div class="col-xs-9 no-padding">
-                <span class="sub-title"><?= Yii::$app->formatter->asDate($item->publish_at, 'H:i, dd.MM.yyyy') ?></span>
+                <span class="sub-title"><?= Yii::$app->formatter->asDate($item->publish_at, 'php:H:i, d.m.Y') ?></span>
                 <h2>
                     <?= Html::a($item->title, $link); ?>
                 </h2>

@@ -66,7 +66,7 @@ class BaseModel extends \yii\db\ActiveRecord {
     }
 
     public function getImageLink($type = '_medium', $small = false, $empty = true) {
-        if ($this->_imglink[$type])
+        if (isset($this->_imglink[$type]))
             return $this->_imglink[$type];
 
         $url = Yii::$app->params['frontendUrl'];

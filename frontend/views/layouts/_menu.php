@@ -10,7 +10,7 @@ NavBar::begin([
         'class' => '',
     ],
 ]);
-$category = Yii::$app->controller->actionParams['category'];
+$category = isset(Yii::$app->controller->actionParams['category']) ? Yii::$app->controller->actionParams['category'] : NULL;
 $controller = Yii::$app->controller->id;
 
 $menuItems = [

@@ -12,6 +12,17 @@ return [
     'modules' => [
     ],
     'components' => [
+        'request' => [
+            'enableCsrfValidation' => true,
+            'enableCookieValidation' => true,
+            'baseUrl' => '/backend/web/'
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+//            'baseUrl' => '/backend/web/',
+//            'scriptUrl' => 'index.php',
+            'showScriptName' => false,
+        ],
 //        'urlManager' => [
 //            'enablePrettyUrl' => true,
 //            'baseUrl' => '/admin',

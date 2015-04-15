@@ -1,5 +1,5 @@
 
-<?= frontend\widgets\SimplySearchBlock::widget(['options' => ['visible' => 1]]) ?>
+<?= \Yii::$app->controller->id != 'search' ?  frontend\widgets\SimplySearchBlock::widget(['options' => ['visible' => 1]]) : '' ?>
 
 <?= frontend\widgets\CalendarBlock::widget(['options' => ['visible' => 1]]) ?>
 

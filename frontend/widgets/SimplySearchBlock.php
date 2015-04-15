@@ -9,8 +9,9 @@ class SimplySearchBlock extends \yii\base\Widget {
     public function init() {
         parent::init();
 
+        $model = new \frontend\models\SearchForm();
         if ($this->options['visible'])
-            echo $this->render('simplySearchBlock');
+            echo $this->render('simplySearchBlock', ['model' => $model]);
     }
 
 }
