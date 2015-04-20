@@ -1,3 +1,7 @@
+<?php
+$this->title = 'Игроки в хоккей ХМАО';
+?>
+
 <?php include __DIR__ . "/../_sub/abcBar.php" ?>
 
 <div id="players-table-container" class="news-list">
@@ -25,11 +29,12 @@
             </tbody>
         </table>
     <?php else: ?>
-    <p style="padding: 20px 10px ">Информация по игрокам отсутствует</p>
+        <p style="padding: 20px 10px ">Информация по игрокам отсутствует</p>
     <?php endif; ?>
 </div>
 <?=
 \yii\widgets\LinkPager::widget([
     'pagination' => $pagination,
+    'options' => ['class' => 'pagination pag-2']
 ]);
 ?>

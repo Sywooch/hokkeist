@@ -1,0 +1,1 @@
+<h5>#<?= $i + 1 ?> - <?= yii\helpers\Html::a($model->title , ['team/view', 'id' => $model->id]) ?> <?= ' <small>(' . \Yii::$app->formatter->asDate($model->publish_at,'php: Y.m.d ') . ', '.$model->category->name.' )</small>'?></h5>

@@ -27,7 +27,7 @@ AppAsset::register($this);
 
         <?php require '_header.php'; ?>
 
-        <?= frontend\widgets\TournaimentBlock::widget(['options' => ['visible' => 1]]) ?>
+        <?= frontend\widgets\TournaimentBlock::widget(['options' => ['visible' => false]]) ?>
 
         <div class="row sun-light-1">
             <div class="container" style="padding-left:0; padding-right: 0;">

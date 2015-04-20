@@ -13,9 +13,7 @@ use yii\widgets\ActiveForm;
         <div class="hr-min-top"></div>
         <h3>Простой поиск</h3>
         <div id="hr-review-search"></div>
-        <?= $form->field($model, 'text')->textInput(['placeholder' => "Что будем искать"])->label(false); ?>
-<!--<input type="text" placeholder="Что будем искать">-->
-        <!--<button type="submit" id="find-btm" >Найти</button>-->
+        <?= $form->field($model, 'text')->textInput(['placeholder' => "Что будем искать",'class' => ''])->label(false); ?>
         <?= Html::submitButton('Найти', ['class' => 'btn btn-primary', 'id' => 'find-btm']) ?>
 
         <?= Html::submitButton('По клубам', ['class' => 'find-cat-btm', 'name' => 'SearchForm[target]', 'value' => 'team']) ?>

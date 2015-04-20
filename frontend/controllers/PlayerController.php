@@ -26,8 +26,11 @@ class PlayerController extends \yii\web\Controller {
             $query->where('LOWER(firstname) LIKE "' . $c . '%"');
             $query->orWhere('LOWER(lastname) LIKE "' . $c . '%"');
         }
-        $pagination = new Pagination(['totalCount' => $query->count(), 'pageSize' => 2]);
-        $model = $query->all();
+        $countQuery = clone $query;
+        $pagination = new Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 10]);
+        $model = $query->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
 
         return $this->render('index', ['model' => $model, 'pagination' => $pagination]);
     }

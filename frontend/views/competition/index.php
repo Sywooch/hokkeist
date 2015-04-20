@@ -1,4 +1,6 @@
-
+<?php 
+$this->title = 'Соревнования';
+?>
 <div id="players-table-container" class="news-list">
     <table>
         <thead>

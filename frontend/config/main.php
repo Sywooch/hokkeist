@@ -20,7 +20,7 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'baseUrl' => '/',
-//            'scriptUrl' => 'index.php',
+            'scriptUrl' => 'index.php',
             'showScriptName' => false,
             'rules' => [
                 'player/<id:\d+>' => 'player/view',
@@ -28,12 +28,14 @@ return [
                 'team/<id:\d+>' => 'team/view',
                 'team/<id:\d+>/<controller:\w+>' => 'team/<controller>',
                 'competition/<id:\d+>' => 'competition/view',
+                'media/<action>' => 'media/<action>',
 //                'competition/<id:\d+>/<controller:\w+>' => 'team/<controller>',
-                '<controller>' => '<controller>/index',
+//                '<controller>' => '<controller>/index',
 //                'news' => 'article/index',
                 '<category:(contacts|about|leadership)>' => 'article/single',
                 '<category:(news|history|official|media)>' => 'article/index',
                 '<category:(news|history|official|media)>/<id>' => 'article/view',
+//                '<controller>' => '<controller>/index',
             ],
         ],
         'user' => [

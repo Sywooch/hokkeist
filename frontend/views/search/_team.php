@@ -1,0 +1,1 @@
+<h5>#<?= $i + 1 ?> - <?= yii\helpers\Html::a($model->name . ', ' . $model->city->name, ['team/view', 'id' => $model->id]) ?></h5>
