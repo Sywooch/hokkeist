@@ -149,7 +149,7 @@ class Player extends BaseModel {
     }
 
     public function getTeamList() {
-        $model = Team::find()->orderBy('city_id, sort, name')->all();
+        $model = Team::find()->with('city')->orderBy('city_id, sort, name')->all();
         $return = [];
 
         if (empty($model))

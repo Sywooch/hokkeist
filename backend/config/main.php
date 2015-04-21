@@ -15,24 +15,16 @@ return [
         'request' => [
             'enableCsrfValidation' => true,
             'enableCookieValidation' => true,
-            'baseUrl' => '/backend/web/'
+            'baseUrl' => '/admin'
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-//            'baseUrl' => '/backend/web/',
-//            'scriptUrl' => 'index.php',
             'showScriptName' => false,
+            'rules' => [
+                '/' => 'site/index',
+                '<controller>' => '<controller>/index',
+            ],
         ],
-//        'urlManager' => [
-//            'enablePrettyUrl' => true,
-//            'baseUrl' => '/admin',
-//            'scriptUrl' => '/admin/index.php',
-//            'showScriptName' => false,
-//            'rules' => [
-//// your rules go here
-//            ],
-////  ...
-//        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,

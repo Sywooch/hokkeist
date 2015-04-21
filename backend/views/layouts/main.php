@@ -3,6 +3,7 @@
 use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\bootstrap\Alert;
+use yii\helpers\Url;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -35,7 +36,7 @@ AppAsset::register($this);
                 <div class="container-fluid">
                     <!-- begin mobile sidebar expand / collapse button -->
                     <div class="navbar-header">
-                        <a href="javascript:;" class="navbar-brand"><img style="max-height: 100%;" src="/images/qucms.png" alt="qucms logo"/></a>
+                        <a href="javascript:;" class="navbar-brand"><img style="max-height: 100%;" src="/admin/images/qucms.png" alt="qucms logo"/></a>
                         <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -54,7 +55,7 @@ AppAsset::register($this);
                                 </div>
                             </form>
                         </li>
-                        <li class="dropdown">
+<!--                        <li class="dropdown">
                             <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
                                 <i class="fa fa-bell-o"></i>
                                 <span class="label">5</span>
@@ -112,19 +113,19 @@ AppAsset::register($this);
                                     <a href="javascript:;">View more</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
                         <li class="dropdown navbar-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/assets/img/user-11.jpg" alt="" />
+                                <img src="/admin/assets/img/user-11.jpg" alt="" />
                                 <span class="hidden-xs"><?= Yii::$app->user->identity->username ?></span> <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu animated fadeInLeft">
                                 <li class="arrow"></li>
-                                <li><a href="javascript:;">Редактировать профиль</a></li>
-                                <li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Входящие</a></li>
-                                <li><a href="javascript:;">Настройки</a></li>
+                                <li><a href="<?= Url::to(['user/update', 'id' => Yii::$app->user->identity->id]); ?>">Редактировать профиль</a></li>
+                                <!--<li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Входящие</a></li>-->
+                                <!--<li><a href="javascript:;">Настройки</a></li>-->
                                 <li class="divider"></li>
-                                <li><a href="javascript:;">Выход</a></li>
+                                <li><a href="<?= Url::to(['site/logout']); ?>">Выход</a></li>
                             </ul>
                         </li>
                     </ul>

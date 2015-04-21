@@ -12,18 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * DivisionController implements the CRUD actions for division model.
  */
-class DivisionController extends Controller {
-
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+class DivisionController extends BackendController {
 
     /**
      * Lists all division models.

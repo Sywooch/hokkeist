@@ -12,18 +12,9 @@ use yii\filters\VerbFilter;
 /**
  * TourController implements the CRUD actions for tour model.
  */
-class TourController extends Controller {
+class TourController extends BackendController {
 
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+ 
 
     /**
      * Lists all tour models.

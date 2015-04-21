@@ -3,26 +3,34 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Team;
-use app\models\search\team as teamSearch;
+use common\models\PhotoGallery;
+use app\models\search\photoGallery as PhotoGallerySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * TeamController implements the CRUD actions for team model.
+ * GalleryController implements the CRUD actions for PhotoGallery model.
  */
-class TeamController extends BackendController {
+class GalleryController extends BackendController {
 
-    
+    public function behaviors() {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
 
     /**
-     * Lists all team models.
+     * Lists all PhotoGallery models.
      * @return mixed
      */
     public function actionIndex() {
-        $searchModel = new teamSearch();
+        $searchModel = new PhotoGallerySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -32,7 +40,7 @@ class TeamController extends BackendController {
     }
 
     /**
-     * Displays a single team model.
+     * Displays a single PhotoGallery model.
      * @param integer $id
      * @return mixed
      */
@@ -43,12 +51,12 @@ class TeamController extends BackendController {
     }
 
     /**
-     * Creates a new team model.
+     * Creates a new PhotoGallery model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate() {
-        $model = new Team();
+        $model = new PhotoGallery();
         $model->loadDefaultValues();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -61,7 +69,7 @@ class TeamController extends BackendController {
     }
 
     /**
-     * Updates an existing team model.
+     * Updates an existing PhotoGallery model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -79,7 +87,7 @@ class TeamController extends BackendController {
     }
 
     /**
-     * Deletes an existing team model.
+     * Deletes an existing PhotoGallery model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -91,16 +99,14 @@ class TeamController extends BackendController {
     }
 
     /**
-     * Finds the team model based on its primary key value.
+     * Finds the PhotoGallery model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return team the loaded model
+     * @return PhotoGallery the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        $model = Team::find()->with(['city', 'players', 'creator', 'organization', 'players.city', 'players.role'])->where('id = ' . $id)->one();
-
-        if ($model !== null) {
+        if (($model = PhotoGallery::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

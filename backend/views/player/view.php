@@ -119,11 +119,11 @@ $smallText = $model->status == \common\models\Team::STATUS_ACTIVE ? 'Актив�
                 ],
                 [
                     'attribute' => 'created_at',
-                    'format' => 'datetime',
+                    'format' => 'date',
                 ],
                 [
                     'attribute' => 'updated_at',
-                    'format' => 'datetime',
+                    'format' => 'date',
                 ],
                 [
                     'attribute' => 'creator_id',

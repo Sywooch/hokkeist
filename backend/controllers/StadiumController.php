@@ -12,18 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * StadiumController implements the CRUD actions for stadium model.
  */
-class StadiumController extends Controller {
-
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+class StadiumController extends BackendController {
 
     /**
      * Lists all stadium models.

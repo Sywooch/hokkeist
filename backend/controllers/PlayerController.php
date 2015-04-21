@@ -12,19 +12,9 @@ use yii\filters\VerbFilter;
 /**
  * PlayerController implements the CRUD actions for player model.
  */
-class PlayerController extends Controller {
+class PlayerController extends BackendController {
 
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
+   
     /**
      * Lists all player models.
      * @return mixed
@@ -106,7 +96,9 @@ class PlayerController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id, $options = []) {
-        if (($model = player::findOne($id, $options)) !== null) {
+        $model = player::find()->with(['city','creator','team','role'])->where('id = ' . $id)->one();
+        
+        if ($model !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

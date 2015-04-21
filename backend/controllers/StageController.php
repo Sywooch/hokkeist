@@ -12,18 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * StageController implements the CRUD actions for stage model.
  */
-class StageController extends Controller {
-
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+class StageController extends BackendController {
 
     /**
      * Lists all stage models.

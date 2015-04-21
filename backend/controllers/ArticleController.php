@@ -8,22 +8,12 @@ use app\models\search\article as articleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * ArticleController implements the CRUD actions for Article model.
  */
-class ArticleController extends Controller {
-
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+class ArticleController extends BackendController {
 
     /**
      * Lists all Article models.

@@ -5,7 +5,18 @@ return [
     'language' => 'ru',
     'timezone' => 'Asia/Yekaterinburg',
     'components' => [
-
+//        'authManager' => [
+//            'class' => 'yii\rbac\DbManager',
+//            'defaultRoles' => ['manager', 'user', 'admin'], //здесь прописываем роли
+//            //зададим куда будут сохраняться наши файлы конфигураций RBAC
+////            'itemFile' => '/@common/components/rbac/items.php',
+////            'assignmentFile' => '/@common/components/rbac/assignments.php',
+////            'ruleFile' => '/@common/components/rbac/rules.php'
+//        ],
+//        'authManager' => [
+//            'class' => \yii\filters\AccessControl::className(),
+//            
+//        ],
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=minion_hck2',

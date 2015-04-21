@@ -12,20 +12,8 @@ use yii\filters\VerbFilter;
 /**
  * CityController implements the CRUD actions for city model.
  */
-class CityController extends Controller
+class CityController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all city models.
      * @return mixed

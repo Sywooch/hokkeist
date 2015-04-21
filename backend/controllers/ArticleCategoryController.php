@@ -12,19 +12,8 @@ use yii\filters\VerbFilter;
 /**
  * ArticleCategoryController implements the CRUD actions for ArticleCategory model.
  */
-class ArticleCategoryController extends Controller
-{
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+class ArticleCategoryController extends BackendController {
+ 
 
     /**
      * Lists all ArticleCategory models.

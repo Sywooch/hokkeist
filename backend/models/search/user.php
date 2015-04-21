@@ -82,6 +82,9 @@ class user extends modelUser
              $query->andFilterWhere(['like', 'first_name', $this->first_name])
                 ->orWhere(['like', 'last_name', $this->first_name]);
         }
+        
+        $query->with(['creator']);
+        
         return $dataProvider;
     }
 }

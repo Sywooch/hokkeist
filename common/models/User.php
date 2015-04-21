@@ -24,6 +24,10 @@ use yii\web\IdentityInterface;
  */
 class User extends BaseModel implements IdentityInterface {
 
+    const ROLE_USER = 1;
+    const ROLE_MANAGER = 5;
+    const ROLE_ADMIN = 10;
+
     /**
      * @inheritdoc
      */
@@ -50,29 +54,27 @@ class User extends BaseModel implements IdentityInterface {
             [['username', 'password', 'email', 'first_name', 'last_name'], 'required', 'on' => 'register'],
             [['username', 'email'], 'unique', 'on' => 'register'],
             [['username', 'email'], 'trim', 'on' => 'register'],
-            
             //Обновление
             [['username', 'email', 'first_name', 'last_name'], 'required', 'on' => 'update'],
             [['username'], 'checkLogin', 'on' => 'update'],
 //            [['email'], 'checkEmail', 'on' => 'update'],
-    
             //Авторизация
             [['username', 'password'], 'required', 'on' => 'login'],
-            
             ['email', 'email'],
-            [['sort'], 'integer'],
+            [['sort','role'], 'integer'],
 //            ['email', 'checkEmail', 'on' => 'register'],;
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['role'], 'in', 'range'=> ['1','5','10']],
         ];
     }
 
     public function checkLogin($attribute) {
 
         $search = static::find()->where(['=', 'LOWER(username)', mb_strtolower($this->username)])
-                ->andWhere(['!=' ,'id', $this->id])->one();
+                        ->andWhere(['!=', 'id', $this->id])->one();
         if ($search)
             $this->addError($attribute, 'Такой логин уже существует');
-        
+
         return true;
     }
 
@@ -91,6 +93,7 @@ class User extends BaseModel implements IdentityInterface {
             'last_name' => 'Фамилия',
             'creator_id' => 'Добавил',
             'updator_id' => 'Обновил',
+            'role' => 'Роль'
         ];
     }
 

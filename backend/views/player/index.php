@@ -19,7 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 echo Breadcrumbs::widget([
     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
     'options' => ['class' => Yii::$app->params['breadcrumbClass']],
-])
+]);
+        
 ?>
 
 <h1 class="page-header"><?= Html::encode($this->title) ?> <?= isset($smallText) ? Html::tag('small', $smallText) : '' ?></h1>

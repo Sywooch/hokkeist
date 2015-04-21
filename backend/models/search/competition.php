@@ -81,6 +81,8 @@ class competition extends competitionModel
             ->andFilterWhere(['like', 'fullname', $this->fullname])
             ->andFilterWhere(['like', 'hashtag', $this->hashtag]);
 
+        $query->with(['season']);
+        
         return $dataProvider;
     }
 }

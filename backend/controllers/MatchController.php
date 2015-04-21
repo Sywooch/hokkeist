@@ -12,18 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * MatchController implements the CRUD actions for Match model.
  */
-class MatchController extends Controller {
-
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+class MatchController extends BackendController {
 
     /**
      * Lists all Match models.

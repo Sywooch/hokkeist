@@ -73,6 +73,8 @@ class organization extends organizationModel
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'about', $this->about]);
 
+        $query->with(['city']);
+        
         return $dataProvider;
     }
 }

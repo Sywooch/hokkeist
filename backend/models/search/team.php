@@ -75,6 +75,7 @@ class team extends teamModel {
                 ->andFilterWhere(['like', 'site_nhl', $this->site_nhl])
                 ->andFilterWhere(['like', 'description', $this->description]);
 
+        $query->with(['city','organization']);
         return $dataProvider;
     }
 

@@ -39,6 +39,7 @@ class BaseModel extends \yii\db\ActiveRecord {
     protected $_imgSizes = [];
     protected $_tempDir = "@frontend/temp/";
     protected $_emptyImgUrl = NULL;
+
 //    protected $image_;
 
 
@@ -72,7 +73,8 @@ class BaseModel extends \yii\db\ActiveRecord {
         $url = Yii::$app->params['frontendUrl'];
         $path = $this->id . $type . '.jpg';
         if (is_file($this->getImgPath() . $path)) {
-            $this->_imglink[$type] = $url . $this->_img . $path . '?ver=' . $this->imagever;
+            $ver = isset($this->imagever) ? "?ver=' . $this->imagever" : '';
+            $this->_imglink[$type] = $url . $this->_img . $path . $ver;
             return $this->_imglink[$type];
         }
         return $empty ? static::getEmptyImageUrl($this, $small) : NULL;
@@ -125,9 +127,9 @@ class BaseModel extends \yii\db\ActiveRecord {
         if (static::useImages() && !empty($this->image_))
             self::generateLoadedImage($this);
     }
-    
+
     static function getEmptyImageUrl(BaseModel $model, $small = false) {
-        return !$small ?  Yii::getAlias($model->_emptyImgUrl) : Yii::getAlias($model->_emptySmallImgUrl);
+        return !$small ? Yii::getAlias($model->_emptyImgUrl) : Yii::getAlias($model->_emptySmallImgUrl);
     }
 
     static function generateLoadedImage(BaseModel $model) {
@@ -142,7 +144,7 @@ class BaseModel extends \yii\db\ActiveRecord {
 //        die($original);
 //        \yii\helpers\VarDumper::dump($model->image_);
 //        die();
-        ini_set('upload_max_filesize','20000');
+        ini_set('upload_max_filesize', '20000');
         if (@$model->image_->saveAs($original)) {
             foreach ($model->getImgSizes() as $key => $size) {
                 $img = Image::getImagine()->open($original);

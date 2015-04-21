@@ -70,6 +70,8 @@ class city extends cityModel
 
         $query->andFilterWhere(['like', 'name', $this->name]);
 
+        $query->with(['creator']);
+        
         return $dataProvider;
     }
 }

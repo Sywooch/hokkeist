@@ -84,6 +84,8 @@ class player extends playerModel {
                 ->andFilterWhere(['like', 'foreign_pass', $this->foreign_pass])
                 ->andFilterWhere(['like', 'address', $this->address])
                 ->andFilterWhere(['like', 'id_', $this->id_]);
+        
+        $query->with(['city','team','role']);
 
         return $dataProvider;
     }

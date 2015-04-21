@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use yii\base\InlineAction;
 use yii\helpers\Url;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * Controller is the base class of web controllers.
@@ -14,26 +16,24 @@ use yii\helpers\Url;
  */
 class BackendController extends \yii\web\Controller {
 
-    public function actionCreate() {
-        $model = new season();
-        $model->loadDefaultValues();
-
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->refresh();
-            $this->redirect('index');
-        }
-
-        if (Yii::$app->request->isAjax):
-            return $this->renderAjax('create', [
-                        'model' => $model,
-            ]);
-        else:
-            return $this->render('create', [
-                        'model' => $model,
-            ]);
-        endif;
-
+    public function behaviors() {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
     }
 
 }

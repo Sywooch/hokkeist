@@ -12,18 +12,8 @@ use yii\filters\VerbFilter;
 /**
  * CompetitionController implements the CRUD actions for competition model.
  */
-class CompetitionController extends Controller {
+class CompetitionController extends BackendController {
 
-    public function behaviors() {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all competition models.

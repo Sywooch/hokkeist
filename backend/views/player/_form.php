@@ -76,18 +76,6 @@ use common\models\Team;
     </div>
     <?= $form->field($model, 'team_id')->dropDownList($model->teamList, ['prompt' => '']) ?>
 
-    <legend>Служебная информация</legend>
-
-
-    <?= $form->field($model, 'sort')->textInput() ?>
-
-    <?= $form->field($model, 'status')->checkbox(['value' => $model::STATUS_ACTIVE]) ?>
-
-    <?php // $form->field($model, 'death_date')->textInput()   ?>
-
-    <?php $tab_1 = ob_get_clean() ?>
-
-    <?php ob_start() ?>
     <legend>Контактные данные</legend>
     <div class="row">
         <div class="col-md-4">
@@ -105,6 +93,13 @@ use common\models\Team;
             <?= $form->field($model, 'phone')->textInput(['maxlength' => 50]) ?>
         </div>
     </div>
+
+    <?php // $form->field($model, 'death_date')->textInput()   ?>
+
+    <?php $tab_1 = ob_get_clean() ?>
+
+    <?php ob_start() ?>
+
 
     <legend>Паспортные данные</legend>
     <div class="row">
@@ -137,6 +132,11 @@ use common\models\Team;
 
     <legend>Загран. паспорт</legend>
     <?= $form->field($model, 'foreign_pass')->textInput(['maxlength' => 150]) ?>
+
+    <legend>Служебная информация</legend>
+    <?= $form->field($model, 'sort')->textInput() ?>
+    <?= $form->field($model, 'status')->checkbox(['value' => $model::STATUS_ACTIVE]) ?>
+
     <?php $tab_2 = ob_get_clean() ?>
 
     <?php ob_start() ?>

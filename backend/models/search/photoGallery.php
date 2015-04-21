@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Stadium as stadiumModel;
+use common\models\PhotoGallery as PhotoGalleryModel;
 
 /**
- * stadium represents the model behind the search form about `common\models\stadium`.
+ * photoGallery represents the model behind the search form about `common\models\PhotoGallery`.
  */
-class stadium extends stadiumModel
+class photoGallery extends PhotoGalleryModel
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class stadium extends stadiumModel
     public function rules()
     {
         return [
-            [['id', 'city_id', 'capacity', 'sort', 'status', 'creator_id', 'updator_id'], 'integer'],
-            [['name', 'fullname', 'abbr', 'address', 'phone', 'description', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'status', 'sort', 'created_at', 'updated_at', 'creator_id', 'updator_id', 'count_photos', 'hits'], 'integer'],
+            [['name', 'description'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class stadium extends stadiumModel
      */
     public function search($params)
     {
-        $query = stadiumModel::find();
+        $query = photoGallery::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,25 +57,19 @@ class stadium extends stadiumModel
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'city_id' => $this->city_id,
-            'capacity' => $this->capacity,
+            'status' => $this->status,
+            'sort' => $this->sort,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'sort' => $this->sort,
-            'status' => $this->status,
             'creator_id' => $this->creator_id,
             'updator_id' => $this->updator_id,
+            'count_photos' => $this->count_photos,
+            'hits' => $this->hits,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'fullname', $this->fullname])
-            ->andFilterWhere(['like', 'abbr', $this->abbr])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'description', $this->description]);
 
-        $query->with(['city']);
-        
         return $dataProvider;
     }
 }

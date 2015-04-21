@@ -74,6 +74,8 @@ class division extends divisionModel
             ->andFilterWhere(['like', 'end_year', $this->end_year])
             ->andFilterWhere(['like', 'name', $this->name]);
 
+        $query->with(['season','competition']);
+        
         return $dataProvider;
     }
 }

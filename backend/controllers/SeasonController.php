@@ -12,19 +12,9 @@ use yii\filters\VerbFilter;
 /**
  * SeasonController implements the CRUD actions for season model.
  */
-class SeasonController extends Controller
+class SeasonController extends BackendController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+  
 
     /**
      * Lists all season models.

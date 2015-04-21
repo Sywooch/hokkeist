@@ -12,11 +12,11 @@ use yii\helpers\Url;
         <ul class="nav">
             <li class="nav-profile">
                 <div class="image">
-                    <a title="Посмотреть свой профиль" href="<?= Url::to(['user/view', 'id' => Yii::$app->user->identity->id]); ?>"><img src="/assets/img/user-11.jpg" alt="" /></a>
+                    <a title="Посмотреть свой профиль" href="<?= Url::to(['user/view', 'id' => Yii::$app->user->identity->id]); ?>"><img src="/admin/assets/img/user-11.jpg" alt="" /></a>
                 </div>
                 <div class="info">
                     <?= Yii::$app->user->identity->first_name . ' ' . Yii::$app->user->identity->last_name ?>
-                    <small>Разработчик</small>
+                    <small>Администратор</small>
                 </div>
             </li>
         </ul>
