@@ -28,7 +28,9 @@ return [
                 'team/<id:\d+>' => 'team/view',
                 'team/<id:\d+>/<controller:\w+>' => 'team/<controller>',
                 'competition/<id:\d+>' => 'competition/view',
+                'media/gallery/<id:\d+>' => 'media/gallery',
                 'media/<action>' => 'media/<action>',
+                
 //                'competition/<id:\d+>/<controller:\w+>' => 'team/<controller>',
 //                '<controller>' => '<controller>/index',
 //                'news' => 'article/index',

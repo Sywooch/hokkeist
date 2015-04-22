@@ -44,10 +44,6 @@ use yii\widgets\ActiveForm;
                 <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
 
-
-
-
-
         </div>
     </div>
     <div class="col-md-4">
@@ -64,4 +60,15 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
     <?php ActiveForm::end(); ?>
+
 </div>
+
+<?php if ($photos): ?>
+    <div class="gallery isotope" id="gallery" style="position: relative; overflow: hidden;">
+        <?php
+        foreach ($photos as $photo) {
+           echo $this->render('_photo', ['model' => $model, 'photo' => $photo]);
+        }
+        ?>
+    </div>
+<?php endif; ?>

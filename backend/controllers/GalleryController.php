@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class GalleryController extends BackendController {
 
+    CONST PHOTO_TYPE = 2;
+
     public function behaviors() {
         return [
             'verbs' => [
@@ -76,12 +78,20 @@ class GalleryController extends BackendController {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
+//die();
+        if (!$model)
+            throw new \yii\web\HttpException(404, 'Страница не существует');
 
+        $photos = \common\models\PhotoFile::find()->where('gallery_id = ' . $model->id . ' and type_id = ' . self::PHOTO_TYPE)->all();
+
+//        \yii\helpers\VarDumper::dump($photos,15,true);
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                         'model' => $model,
+                        'photos' => $photos,
             ]);
         }
     }
